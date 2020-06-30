@@ -1,0 +1,33 @@
+R_DEF: Internal format may change without notice
+local
+color black
+color blue_50
+color gray
+color red_button
+color transparent_black
+color white
+dimen font_large
+dimen font_small
+dimen size_10dp
+dimen size_12dp
+dimen size_15dp
+dimen size_4dp
+dimen size_5dp
+dimen size_8dp
+drawable round_white_rect
+id btn_cancel
+id btn_ok
+id divider_horizontal
+id footer
+id layout_dialog
+id layout_parent
+id layout_success
+id msg
+id seperator
+id txt_title
+layout dialog_ok
+string cancel
+string ok_txt
+string permission_msg
+string permission_title
+style AppTheme

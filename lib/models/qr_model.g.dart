@@ -1,0 +1,37 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'qr_model.dart';
+
+// **************************************************************************
+// TypeAdapterGenerator
+// **************************************************************************
+
+class ScanAdapter extends TypeAdapter<Scan> {
+  @override
+  final typeId = 0;
+
+  @override
+  Scan read(BinaryReader reader) {
+    var numOfFields = reader.readByte();
+    var fields = <int, dynamic>{
+      for (var i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return Scan(
+      type: fields[1] as String,
+      value: fields[0] as String,
+      dateTime: fields[2] as DateTime,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, Scan obj) {
+    writer
+      ..writeByte(3)
+      ..writeByte(0)
+      ..write(obj.value)
+      ..writeByte(1)
+      ..write(obj.type)
+      ..writeByte(2)
+      ..write(obj.dateTime);
+  }
+}
