@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:qrcode/environment/environment.dart' as env;
+import 'package:qrcode/environment/environment.dart';
 import 'package:qrcode/models/qr_model.dart';
 import 'package:qrcode/utils/utils.dart' as utils;
 
@@ -13,16 +13,20 @@ class ListTileByScanType extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String type = scan.type;
-    final List<String> _listTypes = env.scanTypes.keys.toList();
-    if (type == _listTypes[0]) return UrlListTile(scan: scan);
-    if (type == _listTypes[1]) return WifiListTile(scan: scan);
-    if (type == _listTypes[2]) return LocationListTile(scan: scan);
-    if (type == _listTypes[3]) return EmailListTile(scan: scan);
-    if (type == _listTypes[4]) return PhoneListTile(scan: scan);
-    if (type == _listTypes[5]) return SmsListTile(scan: scan);
-    if (type == _listTypes[6]) return EventListTile(scan: scan);
-    return TextListTile(scan: scan);
+    String type = "";
+    if (scan != null) type = scan.type;
+    if (type == ScanTypes.url.value) return UrlListTile(scan: scan);
+    if (type == ScanTypes.wifi.value) return WifiListTile(scan: scan);
+    if (type == ScanTypes.location.value) return LocationListTile(scan: scan);
+    if (type == ScanTypes.email.value) return EmailListTile(scan: scan);
+    if (type == ScanTypes.phone.value) return PhoneListTile(scan: scan);
+    if (type == ScanTypes.sms.value) return SmsListTile(scan: scan);
+    if (type == ScanTypes.event.value) return EventListTile(scan: scan);
+    if (type == ScanTypes.text.value) return TextListTile(scan: scan);
+    return Container(
+      width: 0,
+      height: 0,
+    );
   }
 }
 

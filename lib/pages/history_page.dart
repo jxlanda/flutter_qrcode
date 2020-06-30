@@ -33,7 +33,12 @@ class HistoryPage extends StatelessWidget {
                   // Regresa el scan actual
                   final scan = box.get(keys[index]);
                   return Card(
-                      elevation: 0.5, child: CustomListItemTwo(scan: scan));
+                    elevation: 0.5,
+                    child: InkWell(
+                      onTap: () {},
+                      child: CustomListItemTwo(scan: scan),
+                    ),
+                  );
                 },
                 itemCount: keys.length);
         },
@@ -107,7 +112,8 @@ class CustomListItemTwo extends StatelessWidget {
                   ListTileByScanType(scan: scan),
                   SizedBox(height: 10.0),
                   Text(
-                      utils.dateTimeToString(time: scan.dateTime, locale: 'es'))
+                    utils.dateTimeToString(time: scan.dateTime, locale: 'es'),
+                  )
                 ],
               ),
             ),

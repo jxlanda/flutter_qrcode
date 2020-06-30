@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:qrcode/environment/environment.dart' as env;
+import 'package:qrcode/environment/environment.dart';
 import 'package:qrcode/models/qr_model.dart';
 import 'package:qrcode/repositories/hivedb_repository.dart';
 import 'package:share/share.dart';
@@ -10,14 +10,13 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:wifi_connector/wifi_connector.dart';
 
 List<String> getCleanValueByScanType({Scan scan}) {
-  final List<String> _listTypes = env.scanTypes.keys.toList();
-  if (scan.type == _listTypes[0]) return ["url", scan.value];
-  if (scan.type == _listTypes[1]) return wifiList(scan);
-  if (scan.type == _listTypes[2]) return locationList(scan);
-  if (scan.type == _listTypes[3]) return emailList(scan);
-  if (scan.type == _listTypes[4]) return phoneList(scan);
-  if (scan.type == _listTypes[5]) return smsList(scan);
-  if (scan.type == _listTypes[6])
+  if (scan.type == ScanTypes.url.value) return ["url", scan.value];
+  if (scan.type == ScanTypes.wifi.value) return wifiList(scan);
+  if (scan.type == ScanTypes.location.value) return locationList(scan);
+  if (scan.type == ScanTypes.email.value) return emailList(scan);
+  if (scan.type == ScanTypes.phone.value) return phoneList(scan);
+  if (scan.type == ScanTypes.sms.value) return smsList(scan);
+  if (scan.type == ScanTypes.event.value)
     return ["event"];
   else
     return [scan.value];
@@ -184,9 +183,9 @@ void bottomSheet({BuildContext context, Scan scan}) {
                   title: Text('Remove'),
                   onTap: () async {
                     await database.removeFromDatabase(
-                        database: env.HiveHistory,
+                        database: HiveHistory,
                         key: scan.key,
-                        type: env.HiveTypes.Scan.toString());
+                        type: HiveTypes.Scan.toString());
                     Navigator.pop(context);
                     snackBar(
                         scaffoldState: scaffold,
@@ -195,10 +194,10 @@ void bottomSheet({BuildContext context, Scan scan}) {
                             label: "Undo",
                             onPressed: () async {
                               database.updateFromDatabase(
-                                  database: env.HiveHistory,
+                                  database: HiveHistory,
                                   record: scan,
                                   key: scanKey,
-                                  type: env.HiveTypes.Scan.toString());
+                                  type: HiveTypes.Scan.toString());
                             }));
                   }),
               Divider(),

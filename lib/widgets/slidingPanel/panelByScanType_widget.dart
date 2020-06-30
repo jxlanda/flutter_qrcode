@@ -3,7 +3,7 @@ import 'package:qrcode/models/qr_model.dart';
 import 'package:qrcode/widgets/iconByScanType_widget.dart';
 import 'package:qrcode/widgets/widgets.dart';
 import 'package:qrcode/utils/utils.dart' as utils;
-import 'package:qrcode/environment/environment.dart' as env;
+import 'package:qrcode/environment/environment.dart';
 
 class PanelByScanType extends StatelessWidget {
   final Scan scan;
@@ -13,15 +13,22 @@ class PanelByScanType extends StatelessWidget {
   Widget build(BuildContext context) {
     String type = '';
     if (scan != null) type = scan.type;
-    final List<String> _listTypes = env.scanTypes.keys.toList();
-    if (type == _listTypes[0]) return UrlPanel(type: type, scan: scan);
-    if (type == _listTypes[1]) return WifiPanel(type: type, scan: scan);
-    if (type == _listTypes[2]) return LocationPanel(type: type, scan: scan);
-    if (type == _listTypes[3]) return EmailPanel(type: type, scan: scan);
-    if (type == _listTypes[4]) return PhonePanel(type: type, scan: scan);
-    if (type == _listTypes[5]) return SmsPanel(type: type, scan: scan);
-    if (type == _listTypes[6]) return EventPanel(type: type, scan: scan);
-    return TextPanel(type: type, scan: scan);
+    if (type == ScanTypes.url.value) return UrlPanel(type: type, scan: scan);
+    if (type == ScanTypes.wifi.value) return WifiPanel(type: type, scan: scan);
+    if (type == ScanTypes.location.value)
+      return LocationPanel(type: type, scan: scan);
+    if (type == ScanTypes.email.value)
+      return EmailPanel(type: type, scan: scan);
+    if (type == ScanTypes.phone.value)
+      return PhonePanel(type: type, scan: scan);
+    if (type == ScanTypes.sms.value) return SmsPanel(type: type, scan: scan);
+    if (type == ScanTypes.event.value)
+      return EventPanel(type: type, scan: scan);
+    if (type == ScanTypes.text.value) return TextPanel(type: type, scan: scan);
+    return Container(
+      width: 0,
+      height: 0,
+    );
   }
 }
 
@@ -36,7 +43,6 @@ class ListTilePanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () => print("item"),
       leading: Container(
         padding: EdgeInsets.only(right: 15.0),
         decoration: BoxDecoration(

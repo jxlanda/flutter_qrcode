@@ -1,21 +1,21 @@
-import 'package:flutter_icons/flutter_icons.dart';
-
-// Constantes
-// Asignamos un icono al tipo de QR Code
-const Map<String, dynamic> scanTypes = {
-  'url': FlutterIcons.earth_mco,
-  'wifi': FlutterIcons.wifi_mdi,
-  'location': FlutterIcons.location_on_mdi,
-  'email': FlutterIcons.email_mco,
-  'phone': FlutterIcons.local_phone_mdi,
-  'sms': FlutterIcons.textsms_mdi,
-  'event': FlutterIcons.event_mdi,
-  'text': FlutterIcons.text_subject_mco
-};
-
 // Base de datos
 const String HiveHistory = 'history';
 enum HiveTypes { Scan, Settings }
+
+extension HiveTypesExtension on HiveTypes {
+  static String _value(HiveTypes val) {
+    switch (val) {
+      case HiveTypes.Scan:
+        return "scan";
+      case HiveTypes.Settings:
+        return "settings";
+      default:
+        return "scan";
+    }
+  }
+
+  String get value => _value(this);
+}
 
 // QR Scan
 
@@ -24,6 +24,7 @@ const flashOff = 'FLASH OFF';
 const frontCamera = 'FRONT CAMERA';
 const backCamera = 'BACK CAMERA';
 
+// Constantes
 enum ScanTypes { url, wifi, location, email, phone, sms, event, text }
 
 extension ScanTypesExtension on ScanTypes {
