@@ -22,8 +22,6 @@ class PanelByScanType extends StatelessWidget {
     if (type == ScanTypes.phone.value)
       return PhonePanel(type: type, scan: scan);
     if (type == ScanTypes.sms.value) return SmsPanel(type: type, scan: scan);
-    if (type == ScanTypes.event.value)
-      return EventPanel(type: type, scan: scan);
     if (type == ScanTypes.text.value) return TextPanel(type: type, scan: scan);
     return Container(
       width: 0,
@@ -54,22 +52,6 @@ class ListTilePanel extends StatelessWidget {
       ),
       title: Text(scan.value, overflow: TextOverflow.ellipsis, maxLines: 2),
     );
-  }
-}
-
-class EventPanel extends StatelessWidget {
-  const EventPanel({
-    Key key,
-    @required this.type,
-    @required this.scan,
-  }) : super(key: key);
-
-  final String type;
-  final Scan scan;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTilePanel(scan: scan);
   }
 }
 

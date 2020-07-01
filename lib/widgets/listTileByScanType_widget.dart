@@ -21,29 +21,11 @@ class ListTileByScanType extends StatelessWidget {
     if (type == ScanTypes.email.value) return EmailListTile(scan: scan);
     if (type == ScanTypes.phone.value) return PhoneListTile(scan: scan);
     if (type == ScanTypes.sms.value) return SmsListTile(scan: scan);
-    if (type == ScanTypes.event.value) return EventListTile(scan: scan);
     if (type == ScanTypes.text.value) return TextListTile(scan: scan);
     return Container(
       width: 0,
       height: 0,
     );
-  }
-}
-
-class EventListTile extends StatelessWidget {
-  const EventListTile({
-    Key key,
-    @required this.scan,
-  }) : super(key: key);
-
-  final Scan scan;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(scan.value,
-        maxLines: 3,
-        overflow: TextOverflow.ellipsis,
-        textAlign: TextAlign.justify);
   }
 }
 
@@ -72,7 +54,7 @@ class SmsListTile extends StatelessWidget {
         ]),
         Row(
           children: <Widget>[
-            Text("Text: ", style: TextStyle(fontWeight: FontWeight.bold)),
+            Text("Message: ", style: TextStyle(fontWeight: FontWeight.bold)),
             Expanded(
                 child: Text(smsList[1],
                     maxLines: 1,
@@ -149,7 +131,7 @@ class EmailListTile extends StatelessWidget {
         ]),
         Row(
           children: <Widget>[
-            Text("Body: ", style: TextStyle(fontWeight: FontWeight.bold)),
+            Text("Message: ", style: TextStyle(fontWeight: FontWeight.bold)),
             Expanded(
                 child: Text(emailList[2],
                     maxLines: 1,
@@ -174,7 +156,6 @@ class LocationListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     // Obtenemos los valores del tipo de scan
     final List<String> locationList = utils.getCleanValueByScanType(scan: scan);
-    print(locationList);
     return Column(
       children: <Widget>[
         Row(children: <Widget>[

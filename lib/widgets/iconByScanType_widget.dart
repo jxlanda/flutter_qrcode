@@ -41,14 +41,11 @@ class IconByScanType extends StatelessWidget {
         FlutterIcons.textsms_mdi,
         color: color,
       );
-    if (scanType == ScanTypes.event.value)
+    if (scanType == ScanTypes.text.value)
       return Icon(
-        FlutterIcons.event_mdi,
+        FlutterIcons.text_subject_mco,
         color: color,
       );
-    return Icon(
-      FlutterIcons.text_subject_mco,
-      color: color,
-    );
+    return Container(width: 0.0, height: 0.0);
   }
 }

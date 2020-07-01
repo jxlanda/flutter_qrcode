@@ -51,9 +51,6 @@ class Scan extends HiveObject {
       case "SMST":
         type = ScanTypes.sms.value; // sms
         break;
-      case "BEGI":
-        type = ScanTypes.event.value; // event
-        break;
       default:
         type = ScanTypes.text.value; // text
         break;

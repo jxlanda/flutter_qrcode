@@ -24,23 +24,22 @@ class HistoryPage extends StatelessWidget {
           // Ordenamos los items por fecha
           keys.sort((a, b) => b.compareTo(a));
           // Si no hay valores
-          if (keys.length == 0)
-            return Center(child: Text("Empty"));
+          if (keys.length == 0) return Center(child: Text("Empty"));
           // Si hay valores regresa una lista
-          else
-            return ListView.builder(
-                itemBuilder: (context, index) {
-                  // Regresa el scan actual
-                  final scan = box.get(keys[index]);
-                  return Card(
-                    elevation: 0.5,
-                    child: InkWell(
-                      onTap: () {},
-                      child: CustomListItemTwo(scan: scan),
-                    ),
-                  );
-                },
-                itemCount: keys.length);
+          return ListView.builder(
+              itemBuilder: (context, index) {
+                // Regresa el scan actual
+                final scan = box.get(keys[index]);
+                return Card(
+                  elevation: 0.5,
+                  child: InkWell(
+                    onTap: () => utils.showDialogByScanType(
+                        context: context, scan: scan),
+                    child: CustomListItemTwo(scan: scan),
+                  ),
+                );
+              },
+              itemCount: keys.length);
         },
       ),
     );
@@ -75,12 +74,17 @@ class SheetButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        width: 20.0,
-        height: 20.0,
+      width: 20.0,
+      height: 20.0,
+      child: Align(
+        alignment: Alignment.topCenter,
         child: IconButton(
-            padding: EdgeInsets.all(0),
-            icon: Icon(FlutterIcons.dots_vertical_mco, color: Colors.black),
-            onPressed: () => utils.bottomSheet(context: context, scan: scan)));
+          padding: EdgeInsets.all(0),
+          icon: Icon(FlutterIcons.dots_vertical_mco, color: Colors.black),
+          onPressed: () => utils.bottomSheet(context: context, scan: scan),
+        ),
+      ),
+    );
   }
 }
 

@@ -25,7 +25,7 @@ const frontCamera = 'FRONT CAMERA';
 const backCamera = 'BACK CAMERA';
 
 // Constantes
-enum ScanTypes { url, wifi, location, email, phone, sms, event, text }
+enum ScanTypes { url, wifi, location, email, phone, sms, text }
 
 extension ScanTypesExtension on ScanTypes {
   static String _value(ScanTypes val) {
@@ -42,8 +42,6 @@ extension ScanTypesExtension on ScanTypes {
         return "phone";
       case ScanTypes.sms:
         return "sms";
-      case ScanTypes.event:
-        return "event";
       case ScanTypes.text:
         return "text";
       default:

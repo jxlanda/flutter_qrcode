@@ -17,7 +17,7 @@ class LaunchButton extends StatelessWidget {
       color: Colors.blue,
       onPressed: () => utils.launchURL(context: context, scan: scan),
       icon: Icon(FlutterIcons.launch_mdi),
-      label: Text("Open"),
+      label: Text("Launch"),
     );
   }
 }
