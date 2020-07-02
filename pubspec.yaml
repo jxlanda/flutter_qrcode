@@ -28,6 +28,8 @@ dependencies:
   # Base de datos NoSQL
   hive: ^1.4.1+1
   hive_flutter: ^0.3.0+2
+  # Directorio de guardado BD y Fotos
+  path_provider: ^1.6.11
   # BLoC
   flutter_bloc: ^4.0.0
   equatable: ^1.2.0
@@ -39,11 +41,18 @@ dependencies:
   sliding_up_panel: ^1.0.2
   # Share items
   share: ^0.6.4+3
+  # Launch Items
   url_launcher: ^5.4.10
   # Custom DateTime display
   timeago: ^2.0.26
   # Wifi Connections
   wifi_connector: ^1.0.2
+  # Create QR Codes
+  qr_flutter: ^3.2.0
+  # Save images to gallery
+  image_gallery_saver: '^1.5.0'
+  # Open AppSettings
+  # app_settings
 
 
   # The following adds the Cupertino Icons font to your application.

@@ -22,7 +22,6 @@ class BottomNavPage extends StatelessWidget {
                   Container(child: Center(child: Text("Settings"))),
                 ]),
             extendBody: true,
-            backgroundColor: Colors.grey[300],
             floatingActionButton: FloatingActionButton(
                 child: Icon(FlutterIcons.qrcode_scan_mco),
                 elevation: 2.5,
@@ -46,7 +45,7 @@ class BottomAppBarWithFab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
-        elevation: 2.0, 
+        elevation: 3.0,
         shape: CircularNotchedRectangle(),
         notchMargin: 5.0,
         color: Colors.white,

@@ -1,6 +1,12 @@
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:qrcode/environment/environment.dart';
 import 'package:qrcode/models/qr_model.dart';
 import 'package:qrcode/repositories/hivedb_repository.dart';
@@ -10,7 +16,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:wifi_connector/wifi_connector.dart';
 
 List<String> getCleanValueByScanType({Scan scan}) {
-  if (scan.type == ScanTypes.url.value) return ["url", scan.value];
+  if (scan.type == ScanTypes.url.value) return [scan.value];
   if (scan.type == ScanTypes.wifi.value) return wifiList(scan);
   if (scan.type == ScanTypes.location.value) return locationList(scan);
   if (scan.type == ScanTypes.email.value) return emailList(scan);
@@ -142,7 +148,7 @@ Future<void> launchURL(
   }
 }
 
-Future<void> connectWifi(
+Future<bool> connectWifi(
     {BuildContext context, String ssid, String password}) async {
   final scaffold = Scaffold.of(context);
   final bool isSuccess =
@@ -150,6 +156,7 @@ Future<void> connectWifi(
   isSuccess
       ? snackBar(scaffoldState: scaffold, text: 'Connecting to: $ssid')
       : snackBar(scaffoldState: scaffold, text: 'Cannot connect to: $ssid');
+  return isSuccess;
 }
 
 String dateTimeToString({DateTime time, String locale}) {
@@ -168,6 +175,44 @@ void snackBar({
   );
 }
 
+void showCustomSnackBar(BuildContext context, String message,
+    {SnackBarAction action,
+    Duration duration,
+    Color backColor,
+    IconData icon}) {
+  final scaffold = Scaffold.of(context);
+  if (duration == null) duration = Duration(seconds: 3);
+  scaffold.showSnackBar(
+    SnackBar(
+      content: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            child: (icon == null)
+                ? Container(
+                    width: 0.0,
+                    height: 0.0,
+                  )
+                : Padding(
+                    padding: const EdgeInsets.only(right: 10.0),
+                    child: Icon(icon),
+                  ),
+          ),
+          Text(message),
+        ],
+      ),
+      action: action,
+      duration: duration,
+      backgroundColor: backColor,
+    ),
+  );
+}
+
+Future<bool> copyToClipBoard(BuildContext context, String textToCopy) async {
+  await Clipboard.setData(ClipboardData(text: textToCopy));
+  return true;
+}
+
 void shareModal(String text) {
   Share.share(text);
 }
@@ -177,6 +222,27 @@ void clipBoard({BuildContext context, String text}) {
   Clipboard.setData(ClipboardData(text: text)).then(
     (_) => snackBar(scaffoldState: scaffold, text: 'Copied to Clipboard'),
   );
+}
+
+Future<bool> toQRImageData(String qrCode) async {
+  final ByteData image =
+      await QrPainter(data: qrCode, version: QrVersions.auto, gapless: false)
+          .toImageData(300);
+  Uint8List pngBytes = image.buffer.asUint8List();
+  // String bs64 = base64Encode(pngBytes);
+
+  //  Save image to data/com.example.qrcode/files/qr_code.png
+  final tempDir = (await getTemporaryDirectory()).path;
+  final qrcodeFile = File('$tempDir/qr_code.png');
+  await qrcodeFile.writeAsBytes(pngBytes);
+
+  // Permission handler
+  if (await Permission.storage.request().isGranted) {
+    await ImageGallerySaver.saveFile(qrcodeFile.path);
+    return true;
+    // openAppSettings();
+  }
+  return false;
 }
 
 void bottomSheet({BuildContext context, Scan scan}) {
@@ -252,7 +318,7 @@ void bottomSheet({BuildContext context, Scan scan}) {
     },
   );
 
-  // Compruba el tipo de scan y asina los listTiles correspondientes
+  // Compruba el tipo de scan y asigna los listTiles correspondientes
   if (scan.type == ScanTypes.url.value)
     tilesByScanType = [
       shareListTile,
@@ -305,328 +371,14 @@ void bottomSheet({BuildContext context, Scan scan}) {
     tilesByScanType = [shareListTile, copyListTile, Divider(), removeListTile];
   // Lanza el modal
   showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return Container(
-          child: Wrap(
-            children: tilesByScanType,
-          ),
-        );
-      });
-}
-
-void showDialogByScanType({BuildContext context, Scan scan}) {
-  BuildContext scaffoldContext = context;
-  // flutter defined function
-  showDialog(
     context: context,
     builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text("${scan.type.capitalize()} Details"),
-        content: _contentByScanType(scan: scan, context: scaffoldContext),
-        actions: <Widget>[
-          FlatButton(
-            child: Text("Close"),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-        ],
+      return Container(
+        child: Wrap(
+          children: tilesByScanType,
+        ),
       );
     },
-  );
-}
-
-Widget _contentByScanType({Scan scan, BuildContext context}) {
-  if (scan.type == ScanTypes.url.value)
-    return _urlContent(scan: scan, context: context);
-  if (scan.type == ScanTypes.wifi.value)
-    return _wifiContent(scan: scan, context: context);
-  if (scan.type == ScanTypes.location.value)
-    return _locationContent(scan: scan, context: context);
-  if (scan.type == ScanTypes.email.value)
-    return _emailContent(scan: scan, context: context);
-  if (scan.type == ScanTypes.phone.value)
-    return _phoneContent(scan: scan, context: context);
-  if (scan.type == ScanTypes.sms.value)
-    return _smsContent(scan: scan, context: context);
-  if (scan.type == ScanTypes.text.value)
-    return _textContent(scan: scan, context: context);
-  return Container();
-}
-
-Widget _textContent({Scan scan, BuildContext context}) {
-  return Wrap(
-    children: <Widget>[
-      Divider(
-        height: 1.0,
-      ),
-      ListTile(
-        contentPadding: EdgeInsets.all(0.0),
-        title: Text("Text"),
-        subtitle: Text(
-          scan.value,
-          textAlign: TextAlign.justify,
-        ),
-        trailing: IconButton(
-          icon: Icon(FlutterIcons.content_copy_mdi, color: Colors.black),
-          onPressed: () {
-            clipBoard(context: context, text: scan.value);
-            Navigator.pop(context);
-          },
-        ),
-      ),
-    ],
-  );
-}
-
-Widget _phoneContent({Scan scan, BuildContext context}) {
-  // Obtenemos los valores del tipo de scan
-  final List<String> phoneList = getCleanValueByScanType(scan: scan);
-  final String phoneNumber = phoneList[0];
-  return Wrap(
-    children: <Widget>[
-      Divider(
-        height: 1.0,
-      ),
-      ListTile(
-        contentPadding: EdgeInsets.all(0.0),
-        title: Text("Phone Number"),
-        subtitle: Text(
-          phoneNumber,
-          textAlign: TextAlign.justify,
-        ),
-        trailing: IconButton(
-          icon: Icon(FlutterIcons.content_copy_mdi, color: Colors.black),
-          onPressed: () {
-            clipBoard(context: context, text: phoneNumber);
-            Navigator.pop(context);
-          },
-        ),
-      ),
-    ],
-  );
-}
-
-Widget _locationContent({Scan scan, BuildContext context}) {
-  // Obtenemos los valores del tipo de scan
-  final List<String> locationList = getCleanValueByScanType(scan: scan);
-  final String lat = locationList[0];
-  final String lon = locationList[1];
-  return Wrap(
-    children: <Widget>[
-      Divider(
-        height: 1.0,
-      ),
-      ListTile(
-        contentPadding: EdgeInsets.all(0.0),
-        title: Text("Latitude"),
-        subtitle: Text(
-          lat,
-          textAlign: TextAlign.justify,
-        ),
-        trailing: IconButton(
-          icon: Icon(FlutterIcons.content_copy_mdi, color: Colors.black),
-          onPressed: () {
-            clipBoard(context: context, text: lat);
-            Navigator.pop(context);
-          },
-        ),
-      ),
-      ListTile(
-        contentPadding: EdgeInsets.all(0.0),
-        title: Text("Longitude"),
-        subtitle: Text(
-          lon,
-          textAlign: TextAlign.justify,
-        ),
-        trailing: IconButton(
-          icon: Icon(FlutterIcons.content_copy_mdi, color: Colors.black),
-          onPressed: () {
-            clipBoard(context: context, text: lon);
-            Navigator.pop(context);
-          },
-        ),
-      ),
-    ],
-  );
-}
-
-Widget _urlContent({Scan scan, BuildContext context}) {
-  return Wrap(
-    children: <Widget>[
-      Divider(
-        height: 1.0,
-      ),
-      ListTile(
-        contentPadding: EdgeInsets.all(0.0),
-        title: Text("URL"),
-        subtitle: Text(
-          scan.value,
-          textAlign: TextAlign.justify,
-        ),
-        trailing: IconButton(
-          icon: Icon(FlutterIcons.content_copy_mdi, color: Colors.black),
-          onPressed: () {
-            clipBoard(context: context, text: scan.value);
-            Navigator.pop(context);
-          },
-        ),
-      ),
-    ],
-  );
-}
-
-Widget _smsContent({Scan scan, BuildContext context}) {
-  // Obtenemos los valores del tipo de scan
-  final List<String> smsList = getCleanValueByScanType(scan: scan);
-  String phoneNumber = smsList[0];
-  String body = smsList[1];
-  return Wrap(
-    children: <Widget>[
-      Divider(
-        height: 1.0,
-      ),
-      ListTile(
-        contentPadding: EdgeInsets.all(0.0),
-        title: Text("Phone Number"),
-        subtitle: Text(
-          phoneNumber,
-          textAlign: TextAlign.justify,
-        ),
-        trailing: IconButton(
-          icon: Icon(FlutterIcons.content_copy_mdi, color: Colors.black),
-          onPressed: () {
-            clipBoard(context: context, text: phoneNumber);
-            Navigator.pop(context);
-          },
-        ),
-      ),
-      ListTile(
-        contentPadding: EdgeInsets.all(0.0),
-        title: Text("Message"),
-        subtitle: Text(
-          body,
-          textAlign: TextAlign.justify,
-        ),
-        trailing: IconButton(
-          icon: Icon(FlutterIcons.content_copy_mdi, color: Colors.black),
-          onPressed: () {
-            clipBoard(context: context, text: body);
-            Navigator.pop(context);
-          },
-        ),
-      ),
-    ],
-  );
-}
-
-Widget _emailContent({Scan scan, BuildContext context}) {
-  // Obtenemos los valores del tipo de scan
-  final List<String> emailList = getCleanValueByScanType(scan: scan);
-  String email = emailList[0];
-  String subject = emailList[1];
-  String body = emailList[2];
-  return Wrap(
-    children: <Widget>[
-      Divider(
-        height: 1.0,
-      ),
-      ListTile(
-        contentPadding: EdgeInsets.all(0.0),
-        title: Text("Email"),
-        subtitle: Text(
-          email,
-          textAlign: TextAlign.justify,
-        ),
-        trailing: IconButton(
-          icon: Icon(FlutterIcons.content_copy_mdi, color: Colors.black),
-          onPressed: () {
-            clipBoard(context: context, text: email);
-            Navigator.pop(context);
-          },
-        ),
-      ),
-      ListTile(
-        contentPadding: EdgeInsets.all(0.0),
-        title: Text("Subject"),
-        subtitle: Text(
-          subject,
-          textAlign: TextAlign.justify,
-        ),
-        trailing: IconButton(
-          icon: Icon(FlutterIcons.content_copy_mdi, color: Colors.black),
-          onPressed: () {
-            clipBoard(context: context, text: subject);
-            Navigator.pop(context);
-          },
-        ),
-      ),
-      ListTile(
-        contentPadding: EdgeInsets.all(0.0),
-        title: Text("Message"),
-        subtitle: Text(
-          body,
-          textAlign: TextAlign.justify,
-        ),
-        trailing: IconButton(
-          icon: Icon(FlutterIcons.content_copy_mdi, color: Colors.black),
-          onPressed: () {
-            clipBoard(context: context, text: body);
-            Navigator.pop(context);
-          },
-        ),
-      ),
-    ],
-  );
-}
-
-Widget _wifiContent({Scan scan, BuildContext context}) {
-  // Obtenemos los valores del tipo de scan
-  final List<String> wifiList = getCleanValueByScanType(scan: scan);
-  String ssid = wifiList[0];
-  String password = wifiList[1];
-  String encryption = wifiList[2];
-  return Wrap(
-    children: <Widget>[
-      Divider(
-        height: 1.0,
-      ),
-      ListTile(
-        contentPadding: EdgeInsets.all(0.0),
-        title: Text("SSID"),
-        subtitle: Text(ssid),
-        trailing: IconButton(
-          icon: Icon(FlutterIcons.content_copy_mdi, color: Colors.black),
-          onPressed: () {
-            clipBoard(context: context, text: ssid);
-            Navigator.pop(context);
-          },
-        ),
-      ),
-      ListTile(
-        contentPadding: EdgeInsets.all(0.0),
-        title: Text("Password"),
-        subtitle: Text(password),
-        trailing: IconButton(
-          icon: Icon(FlutterIcons.content_copy_mdi, color: Colors.black),
-          onPressed: () {
-            clipBoard(context: context, text: password);
-            Navigator.pop(context);
-          },
-        ),
-      ),
-      ListTile(
-        contentPadding: EdgeInsets.all(0.0),
-        title: Text("Encryption"),
-        subtitle: Text(encryption),
-        trailing: IconButton(
-          icon: Icon(FlutterIcons.content_copy_mdi, color: Colors.black),
-          onPressed: () {
-            clipBoard(context: context, text: encryption);
-            Navigator.pop(context);
-          },
-        ),
-      ),
-    ],
   );
 }
 
