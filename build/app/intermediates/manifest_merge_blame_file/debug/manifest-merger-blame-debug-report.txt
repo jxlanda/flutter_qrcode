@@ -158,20 +158,33 @@
 98-->[:url_launcher] E:\Cursos_online\flutter\qrcode\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:10:13-37
 99            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
 99-->[:url_launcher] E:\Cursos_online\flutter\qrcode\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:11:13-71
-100        <activity
-100-->[com.journeyapps:zxing-android-embedded:4.0.2] C:\Users\cueva\.gradle\caches\transforms-2\files-2.1\f3deb80348ae07fa84891d38e0fe129f\zxing-android-embedded-4.0.2\AndroidManifest.xml:47:9-53:63
-101            android:name="com.journeyapps.barcodescanner.CaptureActivity"
-101-->[com.journeyapps:zxing-android-embedded:4.0.2] C:\Users\cueva\.gradle\caches\transforms-2\files-2.1\f3deb80348ae07fa84891d38e0fe129f\zxing-android-embedded-4.0.2\AndroidManifest.xml:48:13-74
-102            android:clearTaskOnLaunch="true"
-102-->[com.journeyapps:zxing-android-embedded:4.0.2] C:\Users\cueva\.gradle\caches\transforms-2\files-2.1\f3deb80348ae07fa84891d38e0fe129f\zxing-android-embedded-4.0.2\AndroidManifest.xml:49:13-45
-103            android:screenOrientation="sensorLandscape"
-103-->[com.journeyapps:zxing-android-embedded:4.0.2] C:\Users\cueva\.gradle\caches\transforms-2\files-2.1\f3deb80348ae07fa84891d38e0fe129f\zxing-android-embedded-4.0.2\AndroidManifest.xml:50:13-56
-104            android:stateNotNeeded="true"
-104-->[com.journeyapps:zxing-android-embedded:4.0.2] C:\Users\cueva\.gradle\caches\transforms-2\files-2.1\f3deb80348ae07fa84891d38e0fe129f\zxing-android-embedded-4.0.2\AndroidManifest.xml:51:13-42
-105            android:theme="@style/zxing_CaptureTheme"
-105-->[com.journeyapps:zxing-android-embedded:4.0.2] C:\Users\cueva\.gradle\caches\transforms-2\files-2.1\f3deb80348ae07fa84891d38e0fe129f\zxing-android-embedded-4.0.2\AndroidManifest.xml:52:13-54
-106            android:windowSoftInputMode="stateAlwaysHidden" />
-106-->[com.journeyapps:zxing-android-embedded:4.0.2] C:\Users\cueva\.gradle\caches\transforms-2\files-2.1\f3deb80348ae07fa84891d38e0fe129f\zxing-android-embedded-4.0.2\AndroidManifest.xml:53:13-60
-107    </application>
-108
-109</manifest>
+100
+101        <provider
+101-->[:share_extend] E:\Cursos_online\flutter\qrcode\build\share_extend\intermediates\library_manifest\debug\AndroidManifest.xml:8:9-13:20
+102            android:name="com.zt.shareextend.ShareExtendProvider"
+102-->[:share_extend] E:\Cursos_online\flutter\qrcode\build\share_extend\intermediates\library_manifest\debug\AndroidManifest.xml:9:13-66
+103            android:authorities="com.example.qrcode.shareextend.fileprovider"
+103-->[:share_extend] E:\Cursos_online\flutter\qrcode\build\share_extend\intermediates\library_manifest\debug\AndroidManifest.xml:10:13-76
+104            android:exported="false"
+104-->[:share_extend] E:\Cursos_online\flutter\qrcode\build\share_extend\intermediates\library_manifest\debug\AndroidManifest.xml:11:13-37
+105            android:grantUriPermissions="true" >
+105-->[:share_extend] E:\Cursos_online\flutter\qrcode\build\share_extend\intermediates\library_manifest\debug\AndroidManifest.xml:12:13-47
+106        </provider>
+107
+108        <activity
+108-->[com.journeyapps:zxing-android-embedded:4.0.2] C:\Users\cueva\.gradle\caches\transforms-2\files-2.1\f3deb80348ae07fa84891d38e0fe129f\zxing-android-embedded-4.0.2\AndroidManifest.xml:47:9-53:63
+109            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+109-->[com.journeyapps:zxing-android-embedded:4.0.2] C:\Users\cueva\.gradle\caches\transforms-2\files-2.1\f3deb80348ae07fa84891d38e0fe129f\zxing-android-embedded-4.0.2\AndroidManifest.xml:48:13-74
+110            android:clearTaskOnLaunch="true"
+110-->[com.journeyapps:zxing-android-embedded:4.0.2] C:\Users\cueva\.gradle\caches\transforms-2\files-2.1\f3deb80348ae07fa84891d38e0fe129f\zxing-android-embedded-4.0.2\AndroidManifest.xml:49:13-45
+111            android:screenOrientation="sensorLandscape"
+111-->[com.journeyapps:zxing-android-embedded:4.0.2] C:\Users\cueva\.gradle\caches\transforms-2\files-2.1\f3deb80348ae07fa84891d38e0fe129f\zxing-android-embedded-4.0.2\AndroidManifest.xml:50:13-56
+112            android:stateNotNeeded="true"
+112-->[com.journeyapps:zxing-android-embedded:4.0.2] C:\Users\cueva\.gradle\caches\transforms-2\files-2.1\f3deb80348ae07fa84891d38e0fe129f\zxing-android-embedded-4.0.2\AndroidManifest.xml:51:13-42
+113            android:theme="@style/zxing_CaptureTheme"
+113-->[com.journeyapps:zxing-android-embedded:4.0.2] C:\Users\cueva\.gradle\caches\transforms-2\files-2.1\f3deb80348ae07fa84891d38e0fe129f\zxing-android-embedded-4.0.2\AndroidManifest.xml:52:13-54
+114            android:windowSoftInputMode="stateAlwaysHidden" />
+114-->[com.journeyapps:zxing-android-embedded:4.0.2] C:\Users\cueva\.gradle\caches\transforms-2\files-2.1\f3deb80348ae07fa84891d38e0fe129f\zxing-android-embedded-4.0.2\AndroidManifest.xml:53:13-60
+115    </application>
+116
+117</manifest>

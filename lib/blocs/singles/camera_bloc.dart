@@ -20,9 +20,9 @@ class CameraBloc extends Bloc<CameraEvent, CameraState> {
   double panelExpandedMinHeight = 62.0;
   bool isConnectingWifi = false;
 
-  @override
-  CameraState get initialState => ScanCameraState(
-      flash: env.flashOff, camera: env.backCamera, foundQR: false);
+  CameraBloc()
+      : super(ScanCameraState(
+            flash: env.flashOff, camera: env.backCamera, foundQR: false));
 
   @override
   Future<void> close() {

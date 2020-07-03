@@ -1,0 +1,23 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.zt.shareextend" >
+4
+5    <uses-sdk android:minSdkVersion="16" />
+5-->C:\flutter\.pub-cache\hosted\pub.dartlang.org\share_extend-1.1.9\android\src\main\AndroidManifest.xml
+6
+7    <application>
+7-->C:\flutter\.pub-cache\hosted\pub.dartlang.org\share_extend-1.1.9\android\src\main\AndroidManifest.xml:4:5-13:19
+8        <provider
+8-->C:\flutter\.pub-cache\hosted\pub.dartlang.org\share_extend-1.1.9\android\src\main\AndroidManifest.xml:6:9-11:20
+9            android:name="com.zt.shareextend.ShareExtendProvider"
+9-->C:\flutter\.pub-cache\hosted\pub.dartlang.org\share_extend-1.1.9\android\src\main\AndroidManifest.xml:7:13-66
+10            android:authorities="dollar_openBracket_applicationId_closeBracket.shareextend.fileprovider"
+10-->C:\flutter\.pub-cache\hosted\pub.dartlang.org\share_extend-1.1.9\android\src\main\AndroidManifest.xml:8:13-76
+11            android:exported="false"
+11-->C:\flutter\.pub-cache\hosted\pub.dartlang.org\share_extend-1.1.9\android\src\main\AndroidManifest.xml:9:13-37
+12            android:grantUriPermissions="true" >
+12-->C:\flutter\.pub-cache\hosted\pub.dartlang.org\share_extend-1.1.9\android\src\main\AndroidManifest.xml:10:13-47
+13        </provider>
+14    </application>
+15
+16</manifest>

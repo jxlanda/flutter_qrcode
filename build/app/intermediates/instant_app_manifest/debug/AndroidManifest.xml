@@ -98,6 +98,14 @@
             android:name="io.flutter.plugins.urllauncher.WebViewActivity"
             android:exported="false"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+
+        <provider
+            android:name="com.zt.shareextend.ShareExtendProvider"
+            android:authorities="com.example.qrcode.shareextend.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+        </provider>
+
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:clearTaskOnLaunch="true"

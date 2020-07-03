@@ -31,7 +31,7 @@ dependencies:
   # Directorio de guardado BD y Fotos
   path_provider: ^1.6.11
   # BLoC
-  flutter_bloc: ^4.0.0
+  flutter_bloc: ^5.0.0
   equatable: ^1.2.0
   # QR
   qr_code_scanner: ^0.0.13
@@ -40,7 +40,7 @@ dependencies:
   # sliding_up_panel
   sliding_up_panel: ^1.0.2
   # Share items
-  share: ^0.6.4+3
+  share_extend: ^1.1.9
   # Launch Items
   url_launcher: ^5.4.10
   # Custom DateTime display

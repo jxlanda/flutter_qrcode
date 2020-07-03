@@ -17,8 +17,8 @@ void main() async {
       database: env.HiveHistory,
       adapter: ScanAdapter(),
       type: env.HiveTypes.Scan.toString());
-  // SimpleBlocDelegate
-  BlocSupervisor.delegate = SimpleBlocDelegate();
+  // SimpleBlocObserver
+  Bloc.observer = SimpleBlocDelegate();
   runApp(MyApp());
 }
 
@@ -26,9 +26,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: BlocProvider<BottomNavigationBloc>(
-            create: (context) => BottomNavigationBloc(),
-            child: BottomNavPage()));
+      debugShowCheckedModeBanner: false,
+      home: BlocProvider<BottomNavigationBloc>(
+        create: (context) => BottomNavigationBloc(),
+        child: BottomNavPage(),
+      ),
+    );
   }
 }

@@ -110,7 +110,7 @@ class _CopyContentButton extends StatelessWidget {
       color: Colors.black,
       icon: Icon(FlutterIcons.content_copy_mdi),
       onPressed: () async {
-        await utils.copyToClipBoard(context, text).then(
+        await utils.copyToClipBoard(text).then(
           (success) {
             success
                 ? utils.showCustomSnackBar(context, "Copied to clipboard")

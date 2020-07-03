@@ -29,10 +29,10 @@ class ShareButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return OutlineButton.icon(
       shape: RoundedRectangleBorder(
-        borderRadius: new BorderRadius.circular(30.0),
+        borderRadius: BorderRadius.circular(30.0),
       ),
       color: Colors.blue,
-      onPressed: () => utils.shareModal(scan.value),
+      onPressed: () => utils.shareQRImage(scan.value),
       icon: Icon(FlutterIcons.share_mdi),
       label: Text("Share"),
     );
@@ -51,7 +51,15 @@ class CopyButton extends StatelessWidget {
         borderRadius: new BorderRadius.circular(30.0),
       ),
       color: Colors.blue,
-      onPressed: () => utils.clipBoard(context: context, text: scan.value),
+      onPressed: () async {
+        await utils.copyToClipBoard(scan.value).then(
+          (success) {
+            success
+                ? utils.showCustomSnackBar(context, "Copied to clipboard")
+                : utils.showCustomSnackBar(context, "Could not copy");
+          },
+        );
+      },
       icon: Icon(FlutterIcons.content_copy_mdi),
       label: Text("Copy"),
     );

@@ -12,28 +12,31 @@ class BottomNavPage extends StatelessWidget {
   Widget build(BuildContext context) {
     print("Building bottom navigation page...");
     return BlocBuilder<BottomNavigationBloc, BottomNavigationState>(
-        builder: (context, state) => Scaffold(
-            body: IndexedStack(
-                index: context.bloc<BottomNavigationBloc>().currentIndex,
-                children: <Widget>[
-                  Container(child: Center(child: Text("Home"))),
-                  HistoryPage(),
-                  Container(child: Center(child: Text("Create"))),
-                  Container(child: Center(child: Text("Settings"))),
-                ]),
-            extendBody: true,
-            floatingActionButton: FloatingActionButton(
-                child: Icon(FlutterIcons.qrcode_scan_mco),
-                elevation: 2.5,
-                onPressed: () async {
-                  if (await Permission.camera.request().isGranted) {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ScanCameraPage()));
-                  }
-                }),
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerDocked,
-            bottomNavigationBar: BottomAppBarWithFab()));
+      builder: (context, state) => Scaffold(
+        body: IndexedStack(
+          index: context.bloc<BottomNavigationBloc>().currentIndex,
+          children: <Widget>[
+            HomePage(),
+            HistoryPage(),
+            CreateQRPage(),
+            SettingsPage()
+          ],
+        ),
+        extendBody: true,
+        floatingActionButton: FloatingActionButton(
+            child: Icon(FlutterIcons.qrcode_scan_mco),
+            elevation: 2.5,
+            onPressed: () async {
+              if (await Permission.camera.request().isGranted) {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => ScanCameraPage()),
+                );
+              }
+            }),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: BottomAppBarWithFab(),
+      ),
+    );
   }
 }
 

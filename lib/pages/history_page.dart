@@ -35,68 +35,63 @@ class HistoryPage extends StatelessWidget {
       appBar: AppBar(
         title: Text("History"),
         centerTitle: true,
-        elevation: 2.0,
+        elevation: 0.0,
       ),
       backgroundColor: Colors.grey[200],
-      body: SafeArea(
-        child: Column(
-          children: <Widget>[
-            // Expanded(
-            //   flex: 1,
-            //   child: Row(
-            //     children: <Widget>[
-            //       SizedBox(width: 25.0),
-            //       Text(
-            //         "History",
-            //         textScaleFactor: 1.5,
-            //         style: TextStyle(color: Colors.blue),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-            SizedBox(
-              height: 10.0,
-            ),
-            Expanded(
-              flex: 9,
-              child: ValueListenableBuilder(
-                valueListenable: Hive.box<Scan>(env.HiveHistory).listenable(),
-                builder: (BuildContext context, Box<Scan> box, Widget widget) {
-                  // Genera una lista de keys/values la base de datos: history
-                  List<int> keys = box.keys.cast<int>().toList();
-                  // Ordenamos los items por fecha
-                  keys.sort((a, b) => b.compareTo(a));
-                  // Si no hay valores
-                  if (keys.length == 0) return Center(child: Text("Empty"));
-                  // Si hay valores regresa una lista
-                  return ListView.builder(
-                    itemBuilder: (context, index) {
-                      // Regresa el scan actual
-                      final scan = box.get(keys[index]);
-                      return Card(
-                        elevation: 1.0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        margin: EdgeInsets.symmetric(
-                            horizontal: 10.0, vertical: 4.0),
-                        child: InkWell(
-                          onTap: () => Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => ScanDetailsPage(scan: scan),
-                            ),
+      body: Column(
+        children: <Widget>[
+          // Expanded(
+          //   flex: 1,
+          //   child: Row(
+          //     children: <Widget>[
+          //       SizedBox(width: 25.0),
+          //       Text(
+          //         "History",
+          //         textScaleFactor: 1.5,
+          //         style: TextStyle(color: Colors.blue),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          Expanded(
+            flex: 9,
+            child: ValueListenableBuilder(
+              valueListenable: Hive.box<Scan>(env.HiveHistory).listenable(),
+              builder: (BuildContext context, Box<Scan> box, Widget widget) {
+                // Genera una lista de keys/values la base de datos: history
+                List<int> keys = box.keys.cast<int>().toList();
+                // Ordenamos los items por fecha
+                keys.sort((a, b) => b.compareTo(a));
+                // Si no hay valores
+                if (keys.length == 0) return Center(child: Text("Empty"));
+                // Si hay valores regresa una lista
+                return ListView.builder(
+                  itemBuilder: (context, index) {
+                    // Regresa el scan actual
+                    final scan = box.get(keys[index]);
+                    return Card(
+                      elevation: 1.0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      margin:
+                          EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
+                      child: InkWell(
+                        onTap: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => ScanDetailsPage(scan: scan),
                           ),
-                          child: CustomListItemTwo(scan: scan),
                         ),
-                      );
-                    },
-                    itemCount: keys.length,
-                  );
-                },
-              ),
+                        child: CustomCardContent(scan: scan),
+                      ),
+                    );
+                  },
+                  itemCount: keys.length,
+                );
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -139,8 +134,8 @@ class SheetButton extends StatelessWidget {
   }
 }
 
-class CustomListItemTwo extends StatelessWidget {
-  CustomListItemTwo({Key key, @required this.scan}) : super(key: key);
+class CustomCardContent extends StatelessWidget {
+  CustomCardContent({Key key, @required this.scan}) : super(key: key);
 
   final Scan scan;
 

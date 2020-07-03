@@ -10,7 +10,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:qrcode/environment/environment.dart';
 import 'package:qrcode/models/qr_model.dart';
 import 'package:qrcode/repositories/hivedb_repository.dart';
-import 'package:share/share.dart';
+import 'package:share_extend/share_extend.dart';
 import 'package:timeago/timeago.dart' as timeAgo;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wifi_connector/wifi_connector.dart';
@@ -182,6 +182,9 @@ void showCustomSnackBar(BuildContext context, String message,
     IconData icon}) {
   final scaffold = Scaffold.of(context);
   if (duration == null) duration = Duration(seconds: 3);
+  // Oculta el snackbar actual
+  scaffold..hideCurrentSnackBar();
+  // Muestra el nuevo snackbar
   scaffold.showSnackBar(
     SnackBar(
       content: Row(
@@ -208,20 +211,33 @@ void showCustomSnackBar(BuildContext context, String message,
   );
 }
 
-Future<bool> copyToClipBoard(BuildContext context, String textToCopy) async {
+Future<bool> copyToClipBoard(String textToCopy) async {
   await Clipboard.setData(ClipboardData(text: textToCopy));
   return true;
 }
 
-void shareModal(String text) {
-  Share.share(text);
+void shareText(String text) {
+  ShareExtend.share(text, 'text');
 }
 
-void clipBoard({BuildContext context, String text}) {
-  final scaffold = Scaffold.of(context);
-  Clipboard.setData(ClipboardData(text: text)).then(
-    (_) => snackBar(scaffoldState: scaffold, text: 'Copied to Clipboard'),
-  );
+Future<void> shareQRImage(String qrdata) async {
+  final File qrImage = await createQRData(qrdata);
+  ShareExtend.share(qrImage.path, "file");
+}
+
+Future<File> createQRData(String qrdata) async {
+  final ByteData image = await QrPainter(
+    data: qrdata,
+    version: QrVersions.auto,
+    emptyColor: Colors.white,
+    gapless: false,
+  ).toImageData(250);
+  Uint8List pngBytes = image.buffer.asUint8List();
+  //  Guardar imagen en un directorio temporal
+  final String tempDir = (await getTemporaryDirectory()).path;
+  final File qrcodeFile = File('$tempDir/qr_code.png');
+  await qrcodeFile.writeAsBytes(pngBytes);
+  return qrcodeFile;
 }
 
 Future<bool> toQRImageData(String qrCode) async {
@@ -256,7 +272,7 @@ void bottomSheet({BuildContext context, Scan scan}) {
     leading: Icon(FlutterIcons.share_mdi),
     title: Text('Share'),
     onTap: () {
-      shareModal(scan.value);
+      shareQRImage(scan.value);
       Navigator.pop(context);
     },
   );
@@ -264,8 +280,14 @@ void bottomSheet({BuildContext context, Scan scan}) {
   ListTile copyListTile = ListTile(
     leading: Icon(FlutterIcons.content_copy_mdi),
     title: Text('Copy'),
-    onTap: () {
-      clipBoard(context: context, text: scan.value);
+    onTap: () async {
+      await copyToClipBoard(scan.value).then(
+        (success) {
+          success
+              ? showCustomSnackBar(context, "Copied to clipboard")
+              : showCustomSnackBar(context, "Could not copy");
+        },
+      );
       Navigator.pop(context);
     },
   );
