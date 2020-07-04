@@ -20,3 +20,39 @@ class CurrentIndexChanged extends BottomNavigationState {
   @override
   List<Object> get props => [currentIndex];
 }
+
+class HomePageLoaded extends BottomNavigationState {
+  const HomePageLoaded();
+
+  @override
+  String toString() => 'HomePage Loaded';
+  @override
+  List<Object> get props => [];
+}
+
+class HistoryPageLoaded extends BottomNavigationState {
+  const HistoryPageLoaded();
+
+  @override
+  String toString() => 'HistoryPage Loaded';
+  @override
+  List<Object> get props => [];
+}
+
+class CreateQRPageLoaded extends BottomNavigationState {
+  const CreateQRPageLoaded();
+
+  @override
+  String toString() => 'Create QR Page Loaded';
+  @override
+  List<Object> get props => [];
+}
+
+class SettingsPageLoaded extends BottomNavigationState {
+  const SettingsPageLoaded();
+
+  @override
+  String toString() => 'Settings Page Loaded';
+  @override
+  List<Object> get props => [];
+}

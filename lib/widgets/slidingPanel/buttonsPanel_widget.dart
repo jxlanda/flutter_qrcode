@@ -80,13 +80,17 @@ class ConnectButton extends StatelessWidget {
         borderRadius: new BorderRadius.circular(30.0),
       ),
       color: Colors.blue,
-      onPressed: context.bloc<CameraBloc>().isConnectingWifi
+      onPressed: context.bloc<PanelCameraBloc>().isConnectingWifi
           ? null
           : () async {
-              context.bloc<CameraBloc>().add(ConnectWifi(isConnecting: true));
+              context
+                  .bloc<PanelCameraBloc>()
+                  .add(ConnectingWifi(isConnecting: true));
               await utils.connectWifi(
                   context: context, ssid: ssid, password: password);
-              context.bloc<CameraBloc>().add(ConnectWifi(isConnecting: false));
+              context
+                  .bloc<PanelCameraBloc>()
+                  .add(ConnectingWifi(isConnecting: false));
             },
       icon: Icon(FlutterIcons.wifi_tethering_mdi),
       label: Text("Connect"),

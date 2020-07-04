@@ -20,9 +20,19 @@ class ScanCameraPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Creamos el controlador del panel
     PanelController _panelController = new PanelController();
-    return BlocProvider(
-      create: (context) => CameraBloc(),
+    // Retornamos los widgets
+    print("Building camera....");
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<CameraBloc>(
+          create: (context) => CameraBloc(),
+        ),
+        BlocProvider<PanelCameraBloc>(
+          create: (context) => PanelCameraBloc(),
+        ),
+      ],
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
@@ -43,13 +53,16 @@ class ScanCameraPage extends StatelessWidget {
                           .add(QRViewCreated(qrViewController: qrcontroller));
                       qrcontroller.scannedDataStream.listen(
                         (scanData) {
-                          if (context.bloc<CameraBloc>().qrText != scanData) {
-                            context.bloc<CameraBloc>().add(FoundQR(
-                                panelController: _panelController,
-                                qr: scanData));
+                          if (context.bloc<PanelCameraBloc>().qrText !=
+                              scanData) {
+                            context.bloc<PanelCameraBloc>().add(
+                                  FoundQRCode(
+                                      panelController: _panelController,
+                                      qr: scanData),
+                                );
                           } else
-                            context.bloc<CameraBloc>().add(
-                                NotFoundQR(panelController: _panelController));
+                            context.bloc<PanelCameraBloc>().add(NotFoundQRCode(
+                                panelController: _panelController));
                         },
                       );
                     },
@@ -83,6 +96,7 @@ class CameraButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("Buidings buttons Controls....");
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
@@ -130,36 +144,38 @@ class CameraButtons extends StatelessWidget {
           ],
         ),
         SizedBox(height: 20.0),
-        SlidingUpPanel(
-          controller: _panelController,
-          maxHeight: 150.0,
-          minHeight: context.bloc<CameraBloc>().panelMinHeight,
-          panel: Padding(
-            padding: const EdgeInsets.only(top: 10.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  width: 30,
-                  height: 5,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[300],
-                    borderRadius: BorderRadius.all(Radius.circular(12.0)),
+        BlocBuilder<PanelCameraBloc, PanelCameraState>(
+          builder: (context, state) => SlidingUpPanel(
+            controller: _panelController,
+            maxHeight: 150.0,
+            minHeight: context.bloc<PanelCameraBloc>().panelMinHeight,
+            panel: Padding(
+              padding: const EdgeInsets.only(top: 10.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    width: 30,
+                    height: 5,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: PanelByScanType(
-                      scan: context.bloc<CameraBloc>().currentScan),
-                )
-              ],
+                  Expanded(
+                    child: PanelByScanType(
+                        scan: context.bloc<PanelCameraBloc>().currentScan),
+                  )
+                ],
+              ),
+            ),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(24.0),
+              topRight: Radius.circular(24.0),
             ),
           ),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(24.0),
-            topRight: Radius.circular(24.0),
-          ),
-        )
+        ),
       ],
     );
   }
