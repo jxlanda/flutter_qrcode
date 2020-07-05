@@ -11,6 +11,9 @@ class BottomNavPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print("Building bottom navigation page...");
+    // Determina si hay teclado en la pantalla
+    final bool isKeyboardActive =
+        MediaQuery.of(context).viewInsets.bottom > 0.0;
     return BlocBuilder<BottomNavigationBloc, BottomNavigationState>(
       builder: (context, state) => Scaffold(
         body: IndexedStack(
@@ -23,19 +26,45 @@ class BottomNavPage extends StatelessWidget {
           ],
         ),
         extendBody: true,
-        floatingActionButton: FloatingActionButton(
-            child: Icon(FlutterIcons.qrcode_scan_mco),
-            elevation: 2.5,
-            onPressed: () async {
-              if (await Permission.camera.request().isGranted) {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => ScanCameraPage()),
-                );
-              }
-            }),
+        floatingActionButton: isKeyboardActive ? NoFAB() : FAB(),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomAppBarWithFab(),
       ),
+    );
+  }
+}
+
+class FAB extends StatelessWidget {
+  const FAB({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      child: Icon(FlutterIcons.qrcode_scan_mco),
+      elevation: 2.5,
+      onPressed: () async {
+        if (await Permission.camera.request().isGranted) {
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => ScanCameraPage()),
+          );
+        }
+      },
+    );
+  }
+}
+
+class NoFAB extends StatelessWidget {
+  const NoFAB({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 0.0,
+      height: 0.0,
     );
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:qrcode/environment/environment.dart' as env;
 import 'package:qrcode/models/qr_model.dart';
 import 'package:qrcode/pages/pages.dart';
@@ -16,21 +15,6 @@ class HistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print("Building history page ...");
-    // Agregamos el QR a la base de datos
-    // final Scan scan = new Scan(
-    //     value:
-    //         "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using",
-    //     dateTime: DateTime.now());
-    // // Asigmamos el scan creado al currentScan
-    // final HiveDatabase database = new HiveDatabase();
-    // database.addToDatabase(
-    //     database: env.HiveHistory,
-    //     record: scan,
-    //     type: env.HiveTypes.Scan.toString());
-
-    // SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
-    SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     return Scaffold(
       appBar: AppBar(
         title: Text("History"),
@@ -40,19 +24,6 @@ class HistoryPage extends StatelessWidget {
       backgroundColor: Colors.grey[200],
       body: Column(
         children: <Widget>[
-          // Expanded(
-          //   flex: 1,
-          //   child: Row(
-          //     children: <Widget>[
-          //       SizedBox(width: 25.0),
-          //       Text(
-          //         "History",
-          //         textScaleFactor: 1.5,
-          //         style: TextStyle(color: Colors.blue),
-          //       ),
-          //     ],
-          //   ),
-          // ),
           Expanded(
             flex: 9,
             child: ValueListenableBuilder(
