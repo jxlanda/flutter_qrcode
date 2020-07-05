@@ -1,3 +1,4 @@
+// import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -9,7 +10,8 @@ import 'package:qrcode/environment/environment.dart';
 import 'package:qrcode/utils/utils.dart';
 
 class CreateQRPage extends StatelessWidget {
-  CreateQRPage({Key key}) : super(key: key);
+  CreateQRPage({Key key, this.keyboardSize = 0.0}) : super(key: key);
+  final double keyboardSize;
 
   @override
   Widget build(BuildContext context) {
@@ -18,136 +20,130 @@ class CreateQRPage extends StatelessWidget {
     final double _screenHeight = MediaQuery.of(context).size.height;
     return BlocProvider<CreateQRBloc>(
       create: (context) => CreateQRBloc(),
-      child: SingleChildScrollView(
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-            maxHeight: _screenHeight,
-          ),
-          child: Scaffold(
-            appBar: AppBar(
-              title: Text("Create"),
-              centerTitle: true,
-              elevation: 0.0,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Create"),
+          centerTitle: true,
+          elevation: 0.0,
+        ),
+        backgroundColor: Colors.blue,
+        body: Stack(
+          children: <Widget>[
+            Align(
+              alignment: Alignment.topCenter,
+              child: QRPreview(),
             ),
-            backgroundColor: Colors.blue,
-            body: Stack(
-              children: <Widget>[
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: QRPreview(),
-                ),
-                BlocBuilder<CreateQRBloc, CreateQRState>(
-                  builder: (context, state) {
-                    if (state is StepperFormState) {
-                      // PanelController del bloc
-                      final PanelController _panelCtrl =
-                          context.bloc<CreateQRBloc>().panelController;
-                      // Numero del step final del bloc
-                      final int _finalStep =
-                          context.bloc<CreateQRBloc>().finalStep;
-                      // Lista de ScanTypes del bloc
-                      final List<ScanTypes> _scanTypes =
-                          context.bloc<CreateQRBloc>().scanTypes;
-                      return SlidingUpPanel(
-                        controller: _panelCtrl,
-                        minHeight: _screenHeight / 2.2,
-                        maxHeight: _screenHeight,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(25.0),
-                          topRight: Radius.circular(25.0),
-                        ),
-                        panelBuilder: (sc) => Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.max,
-                          children: <Widget>[
-                            HeaderPanel(),
-                            Stepper(
-                              currentStep: state.currentStep,
-                              onStepContinue: () {
-                                // Suma + 1 al currentStep
-                                context.bloc<CreateQRBloc>().add(
-                                      ChangeStep(
-                                        step: (state.currentStep + 1),
-                                      ),
-                                    );
-                              },
-                              onStepCancel: () {
-                                // Resta - 1 al currentStep
-                                context.bloc<CreateQRBloc>().add(
-                                      ChangeStep(
-                                        step: (state.currentStep - 1),
-                                      ),
-                                    );
-                              },
-                              // physics: ScrollPhysics(),
-                              controlsBuilder: (context,
-                                      {onStepCancel, onStepContinue}) =>
-                                  Padding(
-                                padding: const EdgeInsets.only(top: 8.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: <Widget>[
-                                    state.currentStep != 0
-                                        ? FlatButton(
-                                            color: Colors.grey[200],
-                                            child: const Text('BACK'),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20.0),
-                                            ),
-                                            onPressed: onStepCancel,
-                                          )
-                                        : EmptyWidget(),
-                                    SizedBox(
-                                      width: 10.0,
+            BlocBuilder<CreateQRBloc, CreateQRState>(
+              builder: (context, state) {
+                if (state is StepperFormState) {
+                  // PanelController del bloc
+                  final PanelController _panelCtrl =
+                      context.bloc<CreateQRBloc>().panelController;
+                  // Numero del step final del bloc
+                  final int _finalStep = context.bloc<CreateQRBloc>().finalStep;
+                  // Lista de ScanTypes del bloc
+                  final List<ScanTypes> _scanTypes =
+                      context.bloc<CreateQRBloc>().scanTypes;
+                  return SlidingUpPanel(
+                    controller: _panelCtrl,
+                    minHeight: _screenHeight / 2.2,
+                    maxHeight: _screenHeight - 100,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(25.0),
+                      topRight: Radius.circular(25.0),
+                    ),
+                    panelBuilder: (sc) => Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        HeaderPanel(),
+                        Expanded(
+                          child: Stepper(
+                            currentStep: state.currentStep,
+                            onStepContinue: () {
+                              // Suma + 1 al currentStep
+                              context.bloc<CreateQRBloc>().add(
+                                    ChangeStep(
+                                      step: (state.currentStep + 1),
                                     ),
-                                    FlatButton(
-                                      color: Colors.blue,
-                                      textColor: Colors.white,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(20.0),
-                                      ),
-                                      child: state.currentStep != _finalStep
-                                          ? const Text('NEXT')
-                                          : const Text('CREATE'),
-                                      onPressed: onStepContinue,
+                                  );
+                            },
+                            onStepCancel: () {
+                              // Resta - 1 al currentStep
+                              context.bloc<CreateQRBloc>().add(
+                                    ChangeStep(
+                                      step: (state.currentStep - 1),
                                     ),
-                                  ],
-                                ),
+                                  );
+                            },
+                            physics: ScrollPhysics(),
+                            controlsBuilder: (context,
+                                    {onStepCancel, onStepContinue}) =>
+                                Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: <Widget>[
+                                  state.currentStep != 0
+                                      ? FlatButton(
+                                          color: Colors.grey[200],
+                                          child: const Text('BACK'),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20.0),
+                                          ),
+                                          onPressed: onStepCancel,
+                                        )
+                                      : EmptyWidget(),
+                                  SizedBox(
+                                    width: 10.0,
+                                  ),
+                                  FlatButton(
+                                    color: Colors.blue,
+                                    textColor: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    child: state.currentStep != _finalStep
+                                        ? const Text('NEXT')
+                                        : const Text('CREATE'),
+                                    onPressed: onStepContinue,
+                                  ),
+                                ],
                               ),
-                              steps: [
-                                Step(
-                                  isActive:
-                                      state.currentStep == 0 ? true : false,
-                                  title: Text("Type"),
-                                  content: Step0(scanTypes: _scanTypes),
-                                ),
-                                Step(
-                                  isActive:
-                                      state.currentStep == 1 ? true : false,
-                                  title: Text("Data"),
-                                  content: Step1(panelCtrl: _panelCtrl),
-                                ),
-                                Step(
-                                  isActive:
-                                      state.currentStep == 2 ? true : false,
-                                  title: Text("Style"),
-                                  subtitle: Text("Optional"),
-                                  content: Step2(panelCtrl: _panelCtrl),
-                                ),
-                              ],
                             ),
-                          ],
+                            steps: [
+                              Step(
+                                isActive: state.currentStep == 0 ? true : false,
+                                title: Text("Type"),
+                                content: Step0(scanTypes: _scanTypes),
+                              ),
+                              Step(
+                                isActive: state.currentStep == 1 ? true : false,
+                                title: Text("Data"),
+                                content: Step1(panelCtrl: _panelCtrl),
+                              ),
+                              Step(
+                                isActive: state.currentStep == 2 ? true : false,
+                                title: Text("Style"),
+                                subtitle: Text("Optional"),
+                                content: Step2(panelCtrl: _panelCtrl),
+                              ),
+                            ],
+                          ),
                         ),
-                      );
-                    } else
-                      return EmptyWidget();
-                  },
-                ),
-              ],
+                        SizedBox(
+                            height: keyboardSize == 0
+                                ? keyboardSize
+                                : keyboardSize - 20),
+                      ],
+                    ),
+                  );
+                } else
+                  return EmptyWidget();
+              },
             ),
-          ),
+          ],
         ),
       ),
     );
@@ -181,6 +177,47 @@ class Step2 extends StatelessWidget {
           height: 10.0,
         ),
         TextFormField(
+          onTap: () => _panelCtrl.open(),
+          decoration: InputDecoration(
+            labelText: 'Text',
+            border: OutlineInputBorder(),
+          ),
+        ),
+        SizedBox(
+          height: 10.0,
+        ),
+        TextFormField(
+          onTap: () => _panelCtrl.open(),
+          decoration: InputDecoration(
+            labelText: 'Text',
+            border: OutlineInputBorder(),
+          ),
+        ),
+        SizedBox(
+          height: 10.0,
+        ),
+        TextFormField(
+          onTap: () => _panelCtrl.open(),
+          decoration: InputDecoration(
+            labelText: 'Text',
+            border: OutlineInputBorder(),
+          ),
+        ),
+        SizedBox(
+          height: 10.0,
+        ),
+        TextFormField(
+          onTap: () => _panelCtrl.open(),
+          decoration: InputDecoration(
+            labelText: 'Text',
+            border: OutlineInputBorder(),
+          ),
+        ),
+        SizedBox(
+          height: 10.0,
+        ),
+        TextFormField(
+          onTap: () => _panelCtrl.open(),
           decoration: InputDecoration(
             labelText: 'Text',
             border: OutlineInputBorder(),
@@ -305,6 +342,9 @@ class QRPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Establecemos el tamaño de la pantalla
+    final double _screenHeight = MediaQuery.of(context).size.height;
+
     return Container(
       margin: EdgeInsets.symmetric(vertical: 20.0),
       padding: EdgeInsets.all(10.0),
@@ -320,7 +360,7 @@ class QRPreview extends StatelessWidget {
           QrImage(
             data: "example",
             version: QrVersions.auto,
-            size: 200,
+            size: _screenHeight / 4,
             gapless: false,
           ),
           Text("PREVIEW")

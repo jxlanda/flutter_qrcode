@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:qrcode/blocs/blocs.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -5,6 +6,7 @@ import 'package:qrcode/environment/environment.dart' as env;
 
 class CreateQRBloc extends Bloc<CreateQREvent, CreateQRState> {
   final PanelController panelController = new PanelController();
+  final ScrollController singleChildController = new ScrollController();
   final List<env.ScanTypes> scanTypes = env.ScanTypes.values;
   final finalStep = 2;
 
