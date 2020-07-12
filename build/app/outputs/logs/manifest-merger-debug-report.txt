@@ -5,13 +5,15 @@ INJECTED from E:\Cursos_online\flutter\qrcode\android\app\src\main\AndroidManife
 INJECTED from E:\Cursos_online\flutter\qrcode\android\app\src\main\AndroidManifest.xml:1:1-47:12
 INJECTED from E:\Cursos_online\flutter\qrcode\android\app\src\main\AndroidManifest.xml:1:1-47:12
 MERGED from E:\Cursos_online\flutter\qrcode\android\app\src\main\AndroidManifest.xml:1:1-47:12
-MERGED from [:image_gallery_saver] E:\Cursos_online\flutter\qrcode\build\image_gallery_saver\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
-MERGED from [:wifi_connector] E:\Cursos_online\flutter\qrcode\build\wifi_connector\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-10:12
-MERGED from [:permission_handler] E:\Cursos_online\flutter\qrcode\build\permission_handler\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
-MERGED from [:url_launcher] E:\Cursos_online\flutter\qrcode\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-14:12
+MERGED from [:image_picker] E:\Cursos_online\flutter\qrcode\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-22:12
+MERGED from [:flutter_plugin_android_lifecycle] E:\Cursos_online\flutter\qrcode\build\flutter_plugin_android_lifecycle\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:qr_code_scanner] E:\Cursos_online\flutter\qrcode\build\qr_code_scanner\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
-MERGED from [:share_extend] E:\Cursos_online\flutter\qrcode\build\share_extend\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-16:12
+MERGED from [:wifi_connector] E:\Cursos_online\flutter\qrcode\build\wifi_connector\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-10:12
+MERGED from [:url_launcher] E:\Cursos_online\flutter\qrcode\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-14:12
 MERGED from [:path_provider] E:\Cursos_online\flutter\qrcode\build\path_provider\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
+MERGED from [:share_extend] E:\Cursos_online\flutter\qrcode\build\share_extend\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-16:12
+MERGED from [:permission_handler] E:\Cursos_online\flutter\qrcode\build\permission_handler\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
+MERGED from [:image_gallery_saver] E:\Cursos_online\flutter\qrcode\build\image_gallery_saver\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:url_launcher_web] E:\Cursos_online\flutter\qrcode\build\url_launcher_web\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [com.journeyapps:zxing-android-embedded:4.0.2] C:\Users\cueva\.gradle\caches\transforms-2\files-2.1\f3deb80348ae07fa84891d38e0fe129f\zxing-android-embedded-4.0.2\AndroidManifest.xml:17:1-56:12
 MERGED from [androidx.legacy:legacy-support-v4:1.0.0] C:\Users\cueva\.gradle\caches\transforms-2\files-2.1\09be4c98f955b63e9a8cadeb6d33d870\legacy-support-v4-1.0.0\AndroidManifest.xml:17:1-22:12
@@ -60,6 +62,8 @@ INJECTED from E:\Cursos_online\flutter\qrcode\android\app\src\debug\AndroidManif
 		ADDED from E:\Cursos_online\flutter\qrcode\android\app\src\main\AndroidManifest.xml:1:11-69
 application
 ADDED from E:\Cursos_online\flutter\qrcode\android\app\src\main\AndroidManifest.xml:8:5-46:19
+MERGED from [:image_picker] E:\Cursos_online\flutter\qrcode\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:10:5-20:19
+MERGED from [:image_picker] E:\Cursos_online\flutter\qrcode\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:10:5-20:19
 MERGED from [:url_launcher] E:\Cursos_online\flutter\qrcode\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-12:19
 MERGED from [:url_launcher] E:\Cursos_online\flutter\qrcode\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-12:19
 MERGED from [:share_extend] E:\Cursos_online\flutter\qrcode\build\share_extend\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-14:19
@@ -124,20 +128,24 @@ uses-sdk
 INJECTED from E:\Cursos_online\flutter\qrcode\android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from E:\Cursos_online\flutter\qrcode\android\app\src\main\AndroidManifest.xml
 INJECTED from E:\Cursos_online\flutter\qrcode\android\app\src\main\AndroidManifest.xml
-MERGED from [:image_gallery_saver] E:\Cursos_online\flutter\qrcode\build\image_gallery_saver\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
-MERGED from [:image_gallery_saver] E:\Cursos_online\flutter\qrcode\build\image_gallery_saver\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
-MERGED from [:wifi_connector] E:\Cursos_online\flutter\qrcode\build\wifi_connector\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
-MERGED from [:wifi_connector] E:\Cursos_online\flutter\qrcode\build\wifi_connector\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
-MERGED from [:permission_handler] E:\Cursos_online\flutter\qrcode\build\permission_handler\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
-MERGED from [:permission_handler] E:\Cursos_online\flutter\qrcode\build\permission_handler\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
-MERGED from [:url_launcher] E:\Cursos_online\flutter\qrcode\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
-MERGED from [:url_launcher] E:\Cursos_online\flutter\qrcode\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:image_picker] E:\Cursos_online\flutter\qrcode\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:image_picker] E:\Cursos_online\flutter\qrcode\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:flutter_plugin_android_lifecycle] E:\Cursos_online\flutter\qrcode\build\flutter_plugin_android_lifecycle\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:flutter_plugin_android_lifecycle] E:\Cursos_online\flutter\qrcode\build\flutter_plugin_android_lifecycle\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:qr_code_scanner] E:\Cursos_online\flutter\qrcode\build\qr_code_scanner\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:qr_code_scanner] E:\Cursos_online\flutter\qrcode\build\qr_code_scanner\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
-MERGED from [:share_extend] E:\Cursos_online\flutter\qrcode\build\share_extend\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
-MERGED from [:share_extend] E:\Cursos_online\flutter\qrcode\build\share_extend\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:wifi_connector] E:\Cursos_online\flutter\qrcode\build\wifi_connector\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:wifi_connector] E:\Cursos_online\flutter\qrcode\build\wifi_connector\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:url_launcher] E:\Cursos_online\flutter\qrcode\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:url_launcher] E:\Cursos_online\flutter\qrcode\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:path_provider] E:\Cursos_online\flutter\qrcode\build\path_provider\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:path_provider] E:\Cursos_online\flutter\qrcode\build\path_provider\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:share_extend] E:\Cursos_online\flutter\qrcode\build\share_extend\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:share_extend] E:\Cursos_online\flutter\qrcode\build\share_extend\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:permission_handler] E:\Cursos_online\flutter\qrcode\build\permission_handler\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:permission_handler] E:\Cursos_online\flutter\qrcode\build\permission_handler\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:image_gallery_saver] E:\Cursos_online\flutter\qrcode\build\image_gallery_saver\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:image_gallery_saver] E:\Cursos_online\flutter\qrcode\build\image_gallery_saver\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:url_launcher_web] E:\Cursos_online\flutter\qrcode\build\url_launcher_web\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:url_launcher_web] E:\Cursos_online\flutter\qrcode\build\url_launcher_web\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [com.journeyapps:zxing-android-embedded:4.0.2] C:\Users\cueva\.gradle\caches\transforms-2\files-2.1\f3deb80348ae07fa84891d38e0fe129f\zxing-android-embedded-4.0.2\AndroidManifest.xml:20:5-44
@@ -232,12 +240,32 @@ MERGED from [com.journeyapps:zxing-android-embedded:4.0.2] C:\Users\cueva\.gradl
 		ADDED from E:\Cursos_online\flutter\qrcode\android\app\src\debug\AndroidManifest.xml:11:19-55
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
 ADDED from E:\Cursos_online\flutter\qrcode\android\app\src\debug\AndroidManifest.xml:12:5-81
+MERGED from [:image_picker] E:\Cursos_online\flutter\qrcode\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:8:5-81
+MERGED from [:image_picker] E:\Cursos_online\flutter\qrcode\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:8:5-81
 	android:name
 		ADDED from E:\Cursos_online\flutter\qrcode\android\app\src\debug\AndroidManifest.xml:12:22-78
 uses-permission#android.permission.READ_EXTERNAL_STORAGE
 ADDED from E:\Cursos_online\flutter\qrcode\android\app\src\debug\AndroidManifest.xml:13:5-80
+MERGED from [:image_picker] E:\Cursos_online\flutter\qrcode\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-80
+MERGED from [:image_picker] E:\Cursos_online\flutter\qrcode\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-80
 	android:name
 		ADDED from E:\Cursos_online\flutter\qrcode\android\app\src\debug\AndroidManifest.xml:13:22-77
+provider#io.flutter.plugins.imagepicker.ImagePickerFileProvider
+ADDED from [:image_picker] E:\Cursos_online\flutter\qrcode\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:11:9-19:20
+	android:grantUriPermissions
+		ADDED from [:image_picker] E:\Cursos_online\flutter\qrcode\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:15:13-47
+	android:authorities
+		ADDED from [:image_picker] E:\Cursos_online\flutter\qrcode\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:13:13-74
+	android:exported
+		ADDED from [:image_picker] E:\Cursos_online\flutter\qrcode\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:14:13-37
+	android:name
+		ADDED from [:image_picker] E:\Cursos_online\flutter\qrcode\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:12:13-82
+meta-data#android.support.FILE_PROVIDER_PATHS
+ADDED from [:image_picker] E:\Cursos_online\flutter\qrcode\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:16:13-18:75
+	android:resource
+		ADDED from [:image_picker] E:\Cursos_online\flutter\qrcode\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:18:17-72
+	android:name
+		ADDED from [:image_picker] E:\Cursos_online\flutter\qrcode\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:17:17-67
 activity#io.flutter.plugins.urllauncher.WebViewActivity
 ADDED from [:url_launcher] E:\Cursos_online\flutter\qrcode\build\url_launcher\intermediates\library_manifest\debug\AndroidManifest.xml:8:9-11:74
 	android:exported

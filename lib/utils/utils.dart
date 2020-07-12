@@ -113,9 +113,47 @@ List<String> locationList(Scan scan) {
   return [lat, lon];
 }
 
-// Future<void> launchUri(String uri) async {
-//   await launch(uri);
-// }
+// Convierte los campos String al formato de lectura QR
+
+String wifiFieldsToQRFormat({String ssid, String password, String encryption}) {
+  if (encryption.isEmpty) {
+    encryption = "UNKNOWN";
+  }
+  // Patron WIFI:T:WPA;P:jf234lsfjlsdjf;S:LANDA;
+  final String wifiDataFormat = "WIFI:S:$ssid;P:$password;T:$encryption;";
+  return wifiDataFormat;
+}
+
+String locationFieldsToQRFormat({String latitude, String longitude}) {
+  // Patron: geo:<lat>,<lon>
+  String locationDataFormat = "geo:$latitude,$longitude";
+  return locationDataFormat;
+}
+
+String emailFieldsToQRFormat({String email, String subject, String body}) {
+  // Patron: mailto:email@gmail.com?subject=tema&body=mensaje
+  // ? significa que pueden venir o no
+  if (subject.isNotEmpty) {
+    subject = '?subject=$subject';
+  }
+  if (body.isNotEmpty) {
+    body = '&body=$body';
+  }
+  String emailDataFormat = 'mailto:$email$subject$body';
+  return emailDataFormat;
+}
+
+String phoneFieldsToQRFormat({String phoneNumber}) {
+  // Patron: tel:6641234567
+  String phoneDataFormat = 'tel:$phoneNumber';
+  return phoneDataFormat;
+}
+
+String smsFieldsToQRFormat({String phoneNumber, String body}) {
+  // Patron: SMSTO:6641234567:contenido
+  String smsDataFormat = 'SMSTO:$phoneNumber:$body';
+  return smsDataFormat;
+}
 
 Future<void> launchURL(
     {BuildContext context, Scan scan, ScaffoldState scaffoldState}) async {
@@ -241,9 +279,12 @@ Future<File> createQRData(String qrdata) async {
 }
 
 Future<bool> toQRImageData(String qrCode) async {
-  final ByteData image =
-      await QrPainter(data: qrCode, version: QrVersions.auto, gapless: false)
-          .toImageData(300);
+  final ByteData image = await QrPainter(
+          data: qrCode,
+          version: QrVersions.auto,
+          emptyColor: Colors.white,
+          gapless: false)
+      .toImageData(300);
   Uint8List pngBytes = image.buffer.asUint8List();
   // String bs64 = base64Encode(pngBytes);
 

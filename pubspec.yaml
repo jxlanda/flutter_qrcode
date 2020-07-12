@@ -31,7 +31,7 @@ dependencies:
   # Directorio de guardado BD y Fotos
   path_provider: ^1.6.11
   # BLoC
-  flutter_bloc: ^5.0.0
+  flutter_bloc: ^5.0.1
   equatable: ^1.2.0
   # QR
   qr_code_scanner: ^0.0.13
@@ -51,9 +51,12 @@ dependencies:
   qr_flutter: ^3.2.0
   # Save images to gallery
   image_gallery_saver: '^1.5.0'
+  # Color picker
+  flutter_colorpicker: ^0.3.4
+  # Image picker
+  image_picker: ^0.6.7+4
   # Open AppSettings
   # app_settings
-
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

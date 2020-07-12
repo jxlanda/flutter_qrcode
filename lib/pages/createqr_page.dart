@@ -1,6 +1,9 @@
-// import 'package:flutter/gestures.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:qrcode/blocs/blocs.dart';
 import 'package:qrcode/blocs/singles/createqr_bloc.dart';
@@ -27,24 +30,28 @@ class CreateQRPage extends StatelessWidget {
           elevation: 0.0,
         ),
         backgroundColor: Colors.blue,
-        body: Stack(
-          children: <Widget>[
-            Align(
-              alignment: Alignment.topCenter,
-              child: QRPreview(),
-            ),
-            BlocBuilder<CreateQRBloc, CreateQRState>(
-              builder: (context, state) {
-                if (state is StepperFormState) {
-                  // PanelController del bloc
-                  final PanelController _panelCtrl =
-                      context.bloc<CreateQRBloc>().panelController;
-                  // Numero del step final del bloc
-                  final int _finalStep = context.bloc<CreateQRBloc>().finalStep;
-                  // Lista de ScanTypes del bloc
-                  final List<ScanTypes> _scanTypes =
-                      context.bloc<CreateQRBloc>().scanTypes;
-                  return SlidingUpPanel(
+        body: BlocBuilder<CreateQRBloc, CreateQRState>(
+          builder: (context, state) {
+            if (state is StepperFormState) {
+              // PanelController del bloc
+              final PanelController _panelCtrl =
+                  context.bloc<CreateQRBloc>().panelController;
+              // Numero del step final del bloc
+              final int _finalStep = context.bloc<CreateQRBloc>().finalStep;
+              // Lista de ScanTypes del bloc
+              final List<ScanTypes> _scanTypes =
+                  context.bloc<CreateQRBloc>().scanTypes;
+              return Stack(
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: QRPreview(
+                      qrData: context.bloc<CreateQRBloc>().qrData,
+                      qrColor: context.bloc<CreateQRBloc>().qrColor,
+                      qrImage: context.bloc<CreateQRBloc>().qrImage,
+                    ),
+                  ),
+                  SlidingUpPanel(
                     controller: _panelCtrl,
                     minHeight: _screenHeight / 2.2,
                     maxHeight: _screenHeight - 100,
@@ -61,6 +68,8 @@ class CreateQRPage extends StatelessWidget {
                           child: Stepper(
                             currentStep: state.currentStep,
                             onStepContinue: () {
+                              // Quitamos el foco de los textFields
+                              FocusScope.of(context).unfocus();
                               // Suma + 1 al currentStep
                               context.bloc<CreateQRBloc>().add(
                                     ChangeStep(
@@ -69,6 +78,8 @@ class CreateQRPage extends StatelessWidget {
                                   );
                             },
                             onStepCancel: () {
+                              // Quitamos el foco de los textFields
+                              FocusScope.of(context).unfocus();
                               // Resta - 1 al currentStep
                               context.bloc<CreateQRBloc>().add(
                                     ChangeStep(
@@ -106,7 +117,7 @@ class CreateQRPage extends StatelessWidget {
                                     ),
                                     child: state.currentStep != _finalStep
                                         ? const Text('NEXT')
-                                        : const Text('CREATE'),
+                                        : const Text('FINISH'),
                                     onPressed: onStepContinue,
                                   ),
                                 ],
@@ -132,18 +143,19 @@ class CreateQRPage extends StatelessWidget {
                             ],
                           ),
                         ),
+                        // Si hay teclado activo tomara su alto - 20, si no 0
                         SizedBox(
                             height: keyboardSize == 0
                                 ? keyboardSize
                                 : keyboardSize - 20),
                       ],
                     ),
-                  );
-                } else
-                  return EmptyWidget();
-              },
-            ),
-          ],
+                  ),
+                ],
+              );
+            } else
+              return EmptyWidget();
+          },
         ),
       ),
     );
@@ -161,67 +173,67 @@ class Step2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Color _currentColor = context.bloc<CreateQRBloc>().qrColor;
     return Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
-        SizedBox(
-          height: 5.0,
-        ),
-        TextFormField(
-          onTap: () => _panelCtrl.open(),
-          decoration: InputDecoration(
-            labelText: 'Text',
-            border: OutlineInputBorder(),
+        ListTile(
+          title: Text("Color"),
+          subtitle: Text("Select foreground color"),
+          trailing: Container(
+            width: 40.0,
+            height: 40.0,
+            decoration:
+                BoxDecoration(color: _currentColor, shape: BoxShape.circle),
           ),
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (_) {
+                return AlertDialog(
+                  title: Text("Select a color:"),
+                  content: SingleChildScrollView(
+                    child: BlockPicker(
+                      pickerColor: _currentColor,
+                      onColorChanged: (Color color) {
+                        context
+                            .bloc<CreateQRBloc>()
+                            .add(ChangeQRStyle(color: color));
+                        // Cerramos el modal
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ),
+                );
+              },
+            );
+          },
         ),
-        SizedBox(
-          height: 10.0,
-        ),
-        TextFormField(
-          onTap: () => _panelCtrl.open(),
-          decoration: InputDecoration(
-            labelText: 'Text',
-            border: OutlineInputBorder(),
+        ListTile(
+          title: Text("Image"),
+          subtitle: Text("Select foreground image"),
+          trailing: Container(
+            width: 40.0,
+            height: 40.0,
+            child: (context.bloc<CreateQRBloc>().qrImage != null)
+                ? Image.file(context.bloc<CreateQRBloc>().qrImage)
+                : Container(
+                    color: Colors.blue,
+                  ),
+            decoration: BoxDecoration(shape: BoxShape.rectangle),
           ),
-        ),
-        SizedBox(
-          height: 10.0,
-        ),
-        TextFormField(
-          onTap: () => _panelCtrl.open(),
-          decoration: InputDecoration(
-            labelText: 'Text',
-            border: OutlineInputBorder(),
-          ),
-        ),
-        SizedBox(
-          height: 10.0,
-        ),
-        TextFormField(
-          onTap: () => _panelCtrl.open(),
-          decoration: InputDecoration(
-            labelText: 'Text',
-            border: OutlineInputBorder(),
-          ),
-        ),
-        SizedBox(
-          height: 10.0,
-        ),
-        TextFormField(
-          onTap: () => _panelCtrl.open(),
-          decoration: InputDecoration(
-            labelText: 'Text',
-            border: OutlineInputBorder(),
-          ),
-        ),
-        SizedBox(
-          height: 10.0,
-        ),
-        TextFormField(
-          onTap: () => _panelCtrl.open(),
-          decoration: InputDecoration(
-            labelText: 'Text',
-            border: OutlineInputBorder(),
-          ),
+          onTap: () async {
+            File _image;
+            final PickedFile pickedFile =
+                await ImagePicker().getImage(source: ImageSource.gallery);
+            if (pickedFile != null) {
+              _image = File(pickedFile.path);
+              context
+                  .bloc<CreateQRBloc>()
+                  .add(ChangeQRStyle(color: _currentColor, image: _image));
+            }
+          },
         ),
       ],
     );
@@ -239,17 +251,9 @@ class Step1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        SizedBox(
-          height: 5.0,
-        ),
-        TextFormField(
-          onTap: () => _panelCtrl.open(),
-          decoration:
-              InputDecoration(labelText: 'Text', border: OutlineInputBorder()),
-        ),
-      ],
+    return FormByScanType(
+      scanType: context.bloc<CreateQRBloc>().scanType,
+      panelCtrl: _panelCtrl,
     );
   }
 }
@@ -269,7 +273,12 @@ class Step0 extends StatelessWidget {
       children: <Widget>[
         DropdownButtonFormField(
           value: 0,
-          onChanged: (value) {},
+          onChanged: (index) {
+            final type = _scanTypes[index].value;
+            context.bloc<CreateQRBloc>().add(
+                  DrowpDownChange(scanType: type),
+                );
+          },
           decoration: InputDecoration(
             enabled: true,
             enabledBorder: OutlineInputBorder(
@@ -336,9 +345,12 @@ class HeaderPanel extends StatelessWidget {
 }
 
 class QRPreview extends StatelessWidget {
-  const QRPreview({
-    Key key,
-  }) : super(key: key);
+  const QRPreview({Key key, @required this.qrData, this.qrColor, this.qrImage})
+      : super(key: key);
+
+  final String qrData;
+  final Color qrColor;
+  final File qrImage;
 
   @override
   Widget build(BuildContext context) {
@@ -357,13 +369,26 @@ class QRPreview extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          QrImage(
-            data: "example",
-            version: QrVersions.auto,
-            size: _screenHeight / 4,
-            gapless: false,
-          ),
-          Text("PREVIEW")
+          (qrImage != null)
+              ? QrImage(
+                  data: qrData,
+                  version: QrVersions.auto,
+                  size: _screenHeight / 4,
+                  gapless: false,
+                  foregroundColor: qrColor,
+                  embeddedImage: FileImage(qrImage),
+                  embeddedImageStyle: QrEmbeddedImageStyle(
+                    size: Size(_screenHeight / 20, _screenHeight / 20),
+                  ),
+                )
+              : QrImage(
+                  data: qrData,
+                  version: QrVersions.auto,
+                  size: _screenHeight / 4,
+                  gapless: false,
+                  foregroundColor: qrColor,
+                ),
+          Text(qrData)
         ],
       ),
     );

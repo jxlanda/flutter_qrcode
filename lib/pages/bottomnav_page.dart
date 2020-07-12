@@ -12,8 +12,6 @@ class BottomNavPage extends StatelessWidget {
   Widget build(BuildContext context) {
     print("Building bottom navigation page...");
     // Determina si hay teclado en la pantalla
-    // final bool isKeyboardActive =
-    //     MediaQuery.of(context).viewInsets.bottom > 0.0;
     final double _keyboardSize = MediaQuery.of(context).viewInsets.bottom;
     return BlocBuilder<BottomNavigationBloc, BottomNavigationState>(
       builder: (context, state) => Scaffold(

@@ -303,3 +303,4 @@ int styleable zxing_finder_zxing_viewfinder_laser 2
 int styleable zxing_finder_zxing_viewfinder_mask 3
 int[] styleable zxing_view { 0x7f01001a }
 int styleable zxing_view_zxing_scanner_layout 0
+int xml flutter_image_picker_file_paths 0x7f0d0000
