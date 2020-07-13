@@ -55,3 +55,15 @@ class ChangeQRStyle extends CreateQREvent {
   @override
   String toString() => 'Color: ${color.value}';
 }
+
+class FormCompleted extends CreateQREvent {
+  final bool completed;
+
+  const FormCompleted({@required this.completed});
+
+  @override
+  List<Object> get props => [completed];
+
+  @override
+  String toString() => 'Form completed: $completed';
+}

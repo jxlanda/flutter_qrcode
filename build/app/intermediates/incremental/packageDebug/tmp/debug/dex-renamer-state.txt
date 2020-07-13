@@ -1,4 +1,4 @@
-#Sat Jul 11 18:24:17 PDT 2020
+#Sun Jul 12 16:40:14 PDT 2020
 base.2=E\:\\Cursos_online\\flutter\\qrcode\\build\\app\\intermediates\\dex\\debug\\mergeLibDexDebug\\out\\classes_0.dex
 base.1=E\:\\Cursos_online\\flutter\\qrcode\\build\\app\\intermediates\\dex\\debug\\mergeProjectDexDebug\\out\\classes.dex
 base.0=E\:\\Cursos_online\\flutter\\qrcode\\build\\app\\intermediates\\dex\\debug\\mergeExtDexDebug\\out\\classes.dex

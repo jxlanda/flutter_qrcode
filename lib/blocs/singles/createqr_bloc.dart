@@ -67,7 +67,15 @@ class CreateQRBloc extends Bloc<CreateQREvent, CreateQRState> {
       if (event.image != null) {
         qrImage = event.image;
       }
-      yield stepper.copyWith(currentStep: 2, color: qrColor.value.toString());
+      yield stepper.copyWith(
+        currentStep: 2,
+        color: qrColor.value.toString(),
+        image: qrImage,
+      );
+    }
+    // Completed form
+    if (event is FormCompleted) {
+      yield stepper.copyWith(completed: event.completed);
     }
   }
 }

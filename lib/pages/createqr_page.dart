@@ -41,118 +41,163 @@ class CreateQRPage extends StatelessWidget {
               // Lista de ScanTypes del bloc
               final List<ScanTypes> _scanTypes =
                   context.bloc<CreateQRBloc>().scanTypes;
-              return Stack(
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: QRPreview(
-                      qrData: context.bloc<CreateQRBloc>().qrData,
-                      qrColor: context.bloc<CreateQRBloc>().qrColor,
-                      qrImage: context.bloc<CreateQRBloc>().qrImage,
-                    ),
-                  ),
-                  SlidingUpPanel(
-                    controller: _panelCtrl,
-                    minHeight: _screenHeight / 2.2,
-                    maxHeight: _screenHeight - 100,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(25.0),
-                      topRight: Radius.circular(25.0),
-                    ),
-                    panelBuilder: (sc) => Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.max,
+              final bool completed = state.completed;
+              return completed
+                  ? Column(
                       children: <Widget>[
-                        HeaderPanel(),
-                        Expanded(
-                          child: Stepper(
-                            currentStep: state.currentStep,
-                            onStepContinue: () {
-                              // Quitamos el foco de los textFields
-                              FocusScope.of(context).unfocus();
-                              // Suma + 1 al currentStep
-                              context.bloc<CreateQRBloc>().add(
-                                    ChangeStep(
-                                      step: (state.currentStep + 1),
-                                    ),
-                                  );
-                            },
-                            onStepCancel: () {
-                              // Quitamos el foco de los textFields
-                              FocusScope.of(context).unfocus();
-                              // Resta - 1 al currentStep
-                              context.bloc<CreateQRBloc>().add(
-                                    ChangeStep(
-                                      step: (state.currentStep - 1),
-                                    ),
-                                  );
-                            },
-                            physics: ScrollPhysics(),
-                            controlsBuilder: (context,
-                                    {onStepCancel, onStepContinue}) =>
-                                Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: <Widget>[
-                                  state.currentStep != 0
-                                      ? FlatButton(
-                                          color: Colors.grey[200],
-                                          child: const Text('BACK'),
+                        Align(
+                          alignment: Alignment.topCenter,
+                          child: QRPreview(
+                            qrData: context.bloc<CreateQRBloc>().qrData,
+                            qrColor: context.bloc<CreateQRBloc>().qrColor,
+                            qrImage: context.bloc<CreateQRBloc>().qrImage,
+                          ),
+                        ),
+                        FlatButton(
+                          color: Colors.white,
+                          textColor: Colors.black,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          child: Text("Save"),
+                          onPressed: () {},
+                        ),
+                        FlatButton(
+                          color: Colors.grey,
+                          textColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          child: Text("Cancel"),
+                          onPressed: () => context
+                              .bloc<CreateQRBloc>()
+                              .add(FormCompleted(completed: false)),
+                        )
+                      ],
+                    )
+                  : Stack(
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.topCenter,
+                          child: QRPreview(
+                            qrData: context.bloc<CreateQRBloc>().qrData,
+                            qrColor: context.bloc<CreateQRBloc>().qrColor,
+                            qrImage: context.bloc<CreateQRBloc>().qrImage,
+                          ),
+                        ),
+                        SlidingUpPanel(
+                          controller: _panelCtrl,
+                          minHeight: _screenHeight / 2.2,
+                          maxHeight: _screenHeight - 100,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(25.0),
+                            topRight: Radius.circular(25.0),
+                          ),
+                          panelBuilder: (sc) => Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              HeaderPanel(),
+                              Expanded(
+                                child: Stepper(
+                                  currentStep: state.currentStep,
+                                  onStepContinue: () {
+                                    if (state.currentStep == 2) {
+                                      context
+                                          .bloc<CreateQRBloc>()
+                                          .add(FormCompleted(completed: true));
+                                      return;
+                                    }
+                                    // Quitamos el foco de los textFields
+                                    FocusScope.of(context).unfocus();
+                                    // Suma + 1 al currentStep
+                                    context.bloc<CreateQRBloc>().add(
+                                          ChangeStep(
+                                            step: (state.currentStep + 1),
+                                          ),
+                                        );
+                                  },
+                                  onStepCancel: () {
+                                    // Quitamos el foco de los textFields
+                                    FocusScope.of(context).unfocus();
+                                    // Resta - 1 al currentStep
+                                    context.bloc<CreateQRBloc>().add(
+                                          ChangeStep(
+                                            step: (state.currentStep - 1),
+                                          ),
+                                        );
+                                  },
+                                  physics: ScrollPhysics(),
+                                  controlsBuilder: (context,
+                                          {onStepCancel, onStepContinue}) =>
+                                      Padding(
+                                    padding: const EdgeInsets.only(top: 8.0),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: <Widget>[
+                                        state.currentStep != 0
+                                            ? FlatButton(
+                                                color: Colors.grey[200],
+                                                child: const Text('BACK'),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          20.0),
+                                                ),
+                                                onPressed: onStepCancel,
+                                              )
+                                            : EmptyWidget(),
+                                        SizedBox(
+                                          width: 10.0,
+                                        ),
+                                        FlatButton(
+                                          color: Colors.blue,
+                                          textColor: Colors.white,
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(20.0),
                                           ),
-                                          onPressed: onStepCancel,
-                                        )
-                                      : EmptyWidget(),
-                                  SizedBox(
-                                    width: 10.0,
-                                  ),
-                                  FlatButton(
-                                    color: Colors.blue,
-                                    textColor: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
+                                          child: state.currentStep != _finalStep
+                                              ? const Text('NEXT')
+                                              : const Text('FINISH'),
+                                          onPressed: onStepContinue,
+                                        ),
+                                      ],
                                     ),
-                                    child: state.currentStep != _finalStep
-                                        ? const Text('NEXT')
-                                        : const Text('FINISH'),
-                                    onPressed: onStepContinue,
                                   ),
-                                ],
+                                  steps: [
+                                    Step(
+                                      isActive:
+                                          state.currentStep == 0 ? true : false,
+                                      title: Text("Type"),
+                                      content: Step0(scanTypes: _scanTypes),
+                                    ),
+                                    Step(
+                                      isActive:
+                                          state.currentStep == 1 ? true : false,
+                                      title: Text("Data"),
+                                      content: Step1(panelCtrl: _panelCtrl),
+                                    ),
+                                    Step(
+                                      isActive:
+                                          state.currentStep == 2 ? true : false,
+                                      title: Text("Style"),
+                                      subtitle: Text("Optional"),
+                                      content: Step2(panelCtrl: _panelCtrl),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            steps: [
-                              Step(
-                                isActive: state.currentStep == 0 ? true : false,
-                                title: Text("Type"),
-                                content: Step0(scanTypes: _scanTypes),
-                              ),
-                              Step(
-                                isActive: state.currentStep == 1 ? true : false,
-                                title: Text("Data"),
-                                content: Step1(panelCtrl: _panelCtrl),
-                              ),
-                              Step(
-                                isActive: state.currentStep == 2 ? true : false,
-                                title: Text("Style"),
-                                subtitle: Text("Optional"),
-                                content: Step2(panelCtrl: _panelCtrl),
-                              ),
+                              // Si hay teclado activo tomara su alto - 20, si no 0
+                              SizedBox(
+                                  height: keyboardSize == 0
+                                      ? keyboardSize
+                                      : keyboardSize - 20),
                             ],
                           ),
                         ),
-                        // Si hay teclado activo tomara su alto - 20, si no 0
-                        SizedBox(
-                            height: keyboardSize == 0
-                                ? keyboardSize
-                                : keyboardSize - 20),
                       ],
-                    ),
-                  ),
-                ],
-              );
+                    );
             } else
               return EmptyWidget();
           },
@@ -388,7 +433,7 @@ class QRPreview extends StatelessWidget {
                   gapless: false,
                   foregroundColor: qrColor,
                 ),
-          Text(qrData)
+          // Text(qrData)
         ],
       ),
     );
