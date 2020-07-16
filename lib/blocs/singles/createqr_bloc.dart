@@ -11,7 +11,6 @@ class CreateQRBloc extends Bloc<CreateQREvent, CreateQRState> {
   final PanelController panelController = new PanelController();
   final ScrollController singleChildController = new ScrollController();
   final List<env.ScanTypes> scanTypes = env.ScanTypes.values;
-  // final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   // Form url
   final TextEditingController urlController = TextEditingController();
   // Form wifi

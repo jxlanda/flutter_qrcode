@@ -278,10 +278,11 @@ Future<File> createQRData(String qrdata) async {
   return qrcodeFile;
 }
 
-Future<bool> toQRImageData(String qrCode) async {
+Future<bool> toQRImageData(String qrCode, {Color color = Colors.black}) async {
   final ByteData image = await QrPainter(
           data: qrCode,
           version: QrVersions.auto,
+          color: color,
           emptyColor: Colors.white,
           gapless: false)
       .toImageData(300);

@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -10,7 +9,7 @@ import 'package:qrcode/blocs/singles/createqr_bloc.dart';
 import 'package:qrcode/widgets/widgets.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:qrcode/environment/environment.dart';
-import 'package:qrcode/utils/utils.dart';
+import 'package:qrcode/utils/utils.dart' as utils;
 
 class CreateQRPage extends StatelessWidget {
   CreateQRPage({Key key, this.keyboardSize = 0.0}) : super(key: key);
@@ -19,8 +18,6 @@ class CreateQRPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print("Building create QR page ...");
-    // Establecemos el tamaño de la pantalla
-    final double _screenHeight = MediaQuery.of(context).size.height;
     return BlocProvider<CreateQRBloc>(
       create: (context) => CreateQRBloc(),
       child: Scaffold(
@@ -29,7 +26,6 @@ class CreateQRPage extends StatelessWidget {
           centerTitle: true,
           elevation: 0.0,
         ),
-        backgroundColor: Colors.blue,
         body: BlocBuilder<CreateQRBloc, CreateQRState>(
           builder: (context, state) {
             if (state is StepperFormState) {
@@ -41,7 +37,14 @@ class CreateQRPage extends StatelessWidget {
               // Lista de ScanTypes del bloc
               final List<ScanTypes> _scanTypes =
                   context.bloc<CreateQRBloc>().scanTypes;
+              // Establecemos el tamaño de la pantalla
+              final double _screenHeight = MediaQuery.of(context).size.height;
+              // Verificamos si el formulario se completo
               final bool completed = state.completed;
+              // Obtenemos la informacion del qr
+              final String _qrData = context.bloc<CreateQRBloc>().qrData;
+              // Obtenemos la informacion del qr
+              final Color _qrColor = context.bloc<CreateQRBloc>().qrColor;
               return completed
                   ? Column(
                       children: <Widget>[
@@ -51,28 +54,47 @@ class CreateQRPage extends StatelessWidget {
                             qrData: context.bloc<CreateQRBloc>().qrData,
                             qrColor: context.bloc<CreateQRBloc>().qrColor,
                             qrImage: context.bloc<CreateQRBloc>().qrImage,
+                            qrSize: _screenHeight / 2.4,
                           ),
                         ),
-                        FlatButton(
-                          color: Colors.white,
-                          textColor: Colors.black,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          child: Text("Save"),
-                          onPressed: () {},
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            FlatButton(
+                              color: Colors.grey,
+                              textColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                              child: Text("Back"),
+                              onPressed: () => context
+                                  .bloc<CreateQRBloc>()
+                                  .add(FormCompleted(completed: false)),
+                            ),
+                            SizedBox(
+                              width: 40.0,
+                            ),
+                            FlatButton(
+                              color: Colors.white,
+                              textColor: Colors.black,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                              child: Text("Save"),
+                              onPressed: () async {
+                                await utils
+                                    .toQRImageData(_qrData, color: _qrColor)
+                                    .then((success) {
+                                  success
+                                      ? utils.showCustomSnackBar(
+                                          context, "QR Code saved in gallery")
+                                      : utils.showCustomSnackBar(
+                                          context, "Could not save QRCode");
+                                });
+                              },
+                            ),
+                          ],
                         ),
-                        FlatButton(
-                          color: Colors.grey,
-                          textColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          child: Text("Cancel"),
-                          onPressed: () => context
-                              .bloc<CreateQRBloc>()
-                              .add(FormCompleted(completed: false)),
-                        )
                       ],
                     )
                   : Stack(
@@ -83,6 +105,7 @@ class CreateQRPage extends StatelessWidget {
                             qrData: context.bloc<CreateQRBloc>().qrData,
                             qrColor: context.bloc<CreateQRBloc>().qrColor,
                             qrImage: context.bloc<CreateQRBloc>().qrImage,
+                            qrSize: _screenHeight / 4,
                           ),
                         ),
                         SlidingUpPanel(
@@ -93,7 +116,8 @@ class CreateQRPage extends StatelessWidget {
                             topLeft: Radius.circular(25.0),
                             topRight: Radius.circular(25.0),
                           ),
-                          panelBuilder: (sc) => Column(
+                          color: Theme.of(context).cardColor,
+                          panelBuilder: (_) => Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             mainAxisSize: MainAxisSize.max,
                             children: <Widget>[
@@ -138,6 +162,8 @@ class CreateQRPage extends StatelessWidget {
                                         state.currentStep != 0
                                             ? FlatButton(
                                                 color: Colors.grey[200],
+                                                textColor: Theme.of(context)
+                                                    .textSelectionColor,
                                                 child: const Text('BACK'),
                                                 shape: RoundedRectangleBorder(
                                                   borderRadius:
@@ -151,8 +177,9 @@ class CreateQRPage extends StatelessWidget {
                                           width: 10.0,
                                         ),
                                         FlatButton(
-                                          color: Colors.blue,
-                                          textColor: Colors.white,
+                                          color: Theme.of(context).accentColor,
+                                          textColor: Theme.of(context)
+                                              .textSelectionColor,
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(20.0),
@@ -183,7 +210,7 @@ class CreateQRPage extends StatelessWidget {
                                           state.currentStep == 2 ? true : false,
                                       title: Text("Style"),
                                       subtitle: Text("Optional"),
-                                      content: Step2(panelCtrl: _panelCtrl),
+                                      content: Step2(),
                                     ),
                                   ],
                                 ),
@@ -210,11 +237,7 @@ class CreateQRPage extends StatelessWidget {
 class Step2 extends StatelessWidget {
   const Step2({
     Key key,
-    @required PanelController panelCtrl,
-  })  : _panelCtrl = panelCtrl,
-        super(key: key);
-
-  final PanelController _panelCtrl;
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -263,8 +286,9 @@ class Step2 extends StatelessWidget {
             height: 40.0,
             child: (context.bloc<CreateQRBloc>().qrImage != null)
                 ? Image.file(context.bloc<CreateQRBloc>().qrImage)
-                : Container(
-                    color: Colors.blue,
+                : Icon(
+                    Icons.image,
+                    size: 40.0,
                   ),
             decoration: BoxDecoration(shape: BoxShape.rectangle),
           ),
@@ -328,7 +352,7 @@ class Step0 extends StatelessWidget {
             enabled: true,
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10.0),
-              borderSide: BorderSide(color: Colors.blue),
+              borderSide: BorderSide(color: Theme.of(context).accentColor),
             ),
           ),
           items: _scanTypes
@@ -339,7 +363,7 @@ class Step0 extends StatelessWidget {
                     children: <Widget>[
                       IconByScanType(
                         scanType: item.value,
-                        color: Colors.blue,
+                        color: Theme.of(context).accentColor,
                       ),
                       SizedBox(width: 10.0),
                       Text(
@@ -390,18 +414,21 @@ class HeaderPanel extends StatelessWidget {
 }
 
 class QRPreview extends StatelessWidget {
-  const QRPreview({Key key, @required this.qrData, this.qrColor, this.qrImage})
-      : super(key: key);
+  const QRPreview({
+    Key key,
+    @required this.qrData,
+    this.qrColor,
+    this.qrImage,
+    this.qrSize = 320,
+  }) : super(key: key);
 
   final String qrData;
   final Color qrColor;
   final File qrImage;
+  final double qrSize;
 
   @override
   Widget build(BuildContext context) {
-    // Establecemos el tamaño de la pantalla
-    final double _screenHeight = MediaQuery.of(context).size.height;
-
     return Container(
       margin: EdgeInsets.symmetric(vertical: 20.0),
       padding: EdgeInsets.all(10.0),
@@ -410,32 +437,25 @@ class QRPreview extends StatelessWidget {
         borderRadius: BorderRadius.circular(10.0),
         shape: BoxShape.rectangle,
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          (qrImage != null)
-              ? QrImage(
-                  data: qrData,
-                  version: QrVersions.auto,
-                  size: _screenHeight / 4,
-                  gapless: false,
-                  foregroundColor: qrColor,
-                  embeddedImage: FileImage(qrImage),
-                  embeddedImageStyle: QrEmbeddedImageStyle(
-                    size: Size(_screenHeight / 20, _screenHeight / 20),
-                  ),
-                )
-              : QrImage(
-                  data: qrData,
-                  version: QrVersions.auto,
-                  size: _screenHeight / 4,
-                  gapless: false,
-                  foregroundColor: qrColor,
-                ),
-          // Text(qrData)
-        ],
-      ),
+      child: (qrImage != null)
+          ? QrImage(
+              data: qrData,
+              version: QrVersions.auto,
+              size: qrSize,
+              gapless: false,
+              foregroundColor: qrColor,
+              embeddedImage: FileImage(qrImage),
+              embeddedImageStyle: QrEmbeddedImageStyle(
+                size: Size(qrSize / 5, qrSize / 5),
+              ),
+            )
+          : QrImage(
+              data: qrData,
+              version: QrVersions.auto,
+              size: qrSize,
+              gapless: false,
+              foregroundColor: qrColor,
+            ),
     );
   }
 }

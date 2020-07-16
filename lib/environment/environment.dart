@@ -1,5 +1,6 @@
 // Base de datos
 const String HiveHistory = 'history';
+const String HiveSettings = 'settings';
 enum HiveTypes { Scan, Settings }
 
 extension HiveTypesExtension on HiveTypes {

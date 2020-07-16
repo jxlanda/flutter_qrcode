@@ -21,7 +21,7 @@ class HistoryPage extends StatelessWidget {
         centerTitle: true,
         elevation: 0.0,
       ),
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Theme.of(context).backgroundColor,
       body: Column(
         children: <Widget>[
           Expanded(
@@ -82,10 +82,13 @@ class IconTypeTile extends StatelessWidget {
       padding: EdgeInsets.only(right: 10.0),
       decoration: BoxDecoration(
         border: Border(
-          right: BorderSide(width: 1.0, color: Colors.grey[700]),
+          right: BorderSide(width: 1.0, color: Theme.of(context).dividerColor),
         ),
       ),
-      child: IconByScanType(scanType: scan.type, color: Colors.blue),
+      child: IconByScanType(
+        scanType: scan.type,
+        color: Theme.of(context).accentColor,
+      ),
     );
   }
 }
@@ -100,7 +103,10 @@ class SheetButton extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(10.0),
       onTap: () => utils.bottomSheet(context: context, scan: scan),
-      child: Icon(FlutterIcons.dots_vertical_mco, color: Colors.grey[700]),
+      child: Icon(
+        FlutterIcons.dots_vertical_mco,
+        color: Theme.of(context).dividerColor,
+      ),
     );
   }
 }
@@ -128,7 +134,7 @@ class CustomCardContent extends StatelessWidget {
                   SizedBox(height: 10.0),
                   Text(
                     utils.dateTimeToString(time: scan.dateTime, locale: 'es'),
-                    style: TextStyle(color: Colors.grey[700]),
+                    style: TextStyle(color: Theme.of(context).dividerColor),
                   )
                 ],
               ),

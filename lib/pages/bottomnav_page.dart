@@ -26,9 +26,6 @@ class BottomNavPage extends StatelessWidget {
             SettingsPage()
           ],
         ),
-        // extendBody: true,
-        // floatingActionButton: isKeyboardActive ? NoFAB() : FAB(),
-        // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomAppBarWithFab(),
       ),
     );
@@ -82,7 +79,7 @@ class BottomAppBarWithFab extends StatelessWidget {
       elevation: 3.0,
       shape: CircularNotchedRectangle(),
       notchMargin: 5.0,
-      color: Colors.white,
+      color: Theme.of(context).primaryColor,
       child: Container(
         height: 60.0,
         width: double.infinity,
@@ -97,8 +94,8 @@ class BottomAppBarWithFab extends StatelessWidget {
                   side: BorderSide(width: 1.0, color: Colors.transparent)),
               textColor:
                   (context.bloc<BottomNavigationBloc>().currentIndex == 0)
-                      ? Colors.blue
-                      : Colors.blueGrey,
+                      ? Theme.of(context).accentColor
+                      : Theme.of(context).disabledColor,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -119,8 +116,8 @@ class BottomAppBarWithFab extends StatelessWidget {
                   side: BorderSide(width: 1.0, color: Colors.transparent)),
               textColor:
                   (context.bloc<BottomNavigationBloc>().currentIndex == 1)
-                      ? Colors.blue
-                      : Colors.blueGrey,
+                      ? Theme.of(context).accentColor
+                      : Theme.of(context).disabledColor,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -149,8 +146,8 @@ class BottomAppBarWithFab extends StatelessWidget {
                   side: BorderSide(width: 1.0, color: Colors.transparent)),
               textColor:
                   (context.bloc<BottomNavigationBloc>().currentIndex == 2)
-                      ? Colors.blue
-                      : Colors.blueGrey,
+                      ? Theme.of(context).accentColor
+                      : Theme.of(context).disabledColor,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -169,8 +166,8 @@ class BottomAppBarWithFab extends StatelessWidget {
                   side: BorderSide(width: 1.0, color: Colors.transparent)),
               textColor:
                   (context.bloc<BottomNavigationBloc>().currentIndex == 3)
-                      ? Colors.blue
-                      : Colors.blueGrey,
+                      ? Theme.of(context).accentColor
+                      : Theme.of(context).disabledColor,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[

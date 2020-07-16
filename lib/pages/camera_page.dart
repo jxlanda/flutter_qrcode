@@ -67,11 +67,12 @@ class ScanCameraPage extends StatelessWidget {
                       );
                     },
                     overlay: QrScannerOverlayShape(
-                        borderColor: Colors.blue,
-                        borderRadius: 20,
-                        borderLength: 25,
-                        borderWidth: 10,
-                        cutOutSize: 250),
+                      borderColor: Theme.of(context).accentColor,
+                      borderRadius: 20,
+                      borderLength: 30,
+                      borderWidth: 10,
+                      cutOutSize: 250,
+                    ),
                   ),
                   CameraButtons(panelController: _panelController),
                 ],

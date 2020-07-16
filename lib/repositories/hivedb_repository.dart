@@ -17,11 +17,15 @@ class HiveDatabase {
   }
 
   Future<void> openDatabase({String database, String type}) async {
-    if (type == HiveTypes.Scan.toString()) await Hive.openBox<Scan>(database);
+    if (type == HiveTypes.Scan.value)
+      await Hive.openBox<Scan>(database);
+    else if (type == HiveTypes.Settings.value)
+      await Hive.openBox<bool>(database);
   }
 
   Future<dynamic> returnBox({String database, String type}) async {
-    if (type == HiveTypes.Scan.toString()) return Hive.box<Scan>(database);
+    if (type == HiveTypes.Scan.value) return Hive.box<Scan>(database);
+    if (type == HiveTypes.Settings.value) await Hive.openBox<bool>(database);
   }
 
   Future<bool> addToDatabase(
