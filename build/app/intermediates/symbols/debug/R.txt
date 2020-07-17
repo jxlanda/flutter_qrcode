@@ -209,6 +209,7 @@ int layout notification_template_part_time 0x7f07000f
 int layout zxing_barcode_scanner 0x7f070010
 int layout zxing_capture 0x7f070011
 int mipmap ic_launcher 0x7f080000
+int mipmap launcher_icon 0x7f080001
 int raw zxing_beep 0x7f090000
 int string app_version 0x7f0a0000
 int string define_zxingandroidembedded 0x7f0a0001

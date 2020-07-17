@@ -210,6 +210,7 @@ layout notification_template_part_time
 layout zxing_barcode_scanner
 layout zxing_capture
 mipmap ic_launcher
+mipmap launcher_icon
 raw zxing_beep
 string app_version
 string define_zxingandroidembedded

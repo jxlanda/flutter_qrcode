@@ -83,8 +83,8 @@
 50        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
 50-->[androidx.core:core:1.1.0] C:\Users\cueva\.gradle\caches\transforms-2\files-2.1\a528b13ac93e64cafa3d0480e2c93207\core-1.1.0\AndroidManifest.xml:24:18-86
 51        android:debuggable="true"
-52        android:icon="@mipmap/ic_launcher"
-52-->E:\Cursos_online\flutter\qrcode\android\app\src\main\AndroidManifest.xml:11:9-43
+52        android:icon="@mipmap/launcher_icon"
+52-->E:\Cursos_online\flutter\qrcode\android\app\src\main\AndroidManifest.xml:11:9-45
 53        android:label="qrcode" >
 53-->E:\Cursos_online\flutter\qrcode\android\app\src\main\AndroidManifest.xml:10:9-31
 54        <activity

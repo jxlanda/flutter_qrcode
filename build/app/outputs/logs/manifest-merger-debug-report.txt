@@ -79,7 +79,7 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\cu
 	android:label
 		ADDED from E:\Cursos_online\flutter\qrcode\android\app\src\main\AndroidManifest.xml:10:9-31
 	android:icon
-		ADDED from E:\Cursos_online\flutter\qrcode\android\app\src\main\AndroidManifest.xml:11:9-43
+		ADDED from E:\Cursos_online\flutter\qrcode\android\app\src\main\AndroidManifest.xml:11:9-45
 	android:name
 		ADDED from E:\Cursos_online\flutter\qrcode\android\app\src\main\AndroidManifest.xml:9:9-57
 activity#com.example.qrcode.MainActivity
