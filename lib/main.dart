@@ -34,7 +34,13 @@ class MyApp extends StatelessWidget {
         builder: (context, themeState) => MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
+            // Tema oscuro o normal
+            brightness: Brightness.light,
             backgroundColor: Colors.grey[200],
+            bottomAppBarColor: Colors.white,
+            dividerColor: Colors.grey[700],
+            textSelectionColor: Colors.white,
+            accentColorBrightness: Brightness.light,
           ),
           darkTheme: ThemeData(
             // Tema oscuro o normal
@@ -42,6 +48,7 @@ class MyApp extends StatelessWidget {
             // Colores en RGB
             primaryColor: Color(0xff212121),
             primaryColorDark: Colors.black,
+            bottomAppBarColor: Color(0xff212121),
             backgroundColor: Color(0xff303030),
             cardColor: Color(0xff424242),
             accentColor: Color(0xff64ffda),

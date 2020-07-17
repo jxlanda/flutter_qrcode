@@ -79,7 +79,7 @@ class BottomAppBarWithFab extends StatelessWidget {
       elevation: 3.0,
       shape: CircularNotchedRectangle(),
       notchMargin: 5.0,
-      color: Theme.of(context).primaryColor,
+      color: Theme.of(context).bottomAppBarColor,
       child: Container(
         height: 60.0,
         width: double.infinity,

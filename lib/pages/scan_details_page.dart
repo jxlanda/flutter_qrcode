@@ -19,11 +19,8 @@ class ScanDetailsPage extends StatelessWidget {
         ),
         elevation: 0.0,
         centerTitle: true,
-        // backgroundColor: Colors.blue,
-        // titleSpacing: 0.0,
-        // iconTheme: IconThemeData(color: Colors.white),
       ),
-      backgroundColor: Colors.blue,
+      backgroundColor: Theme.of(context).primaryColor,
       body: Column(
         children: <Widget>[
           QRImage(scan: scan),
@@ -42,7 +39,7 @@ class ContentQR extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(25.0),
             topRight: Radius.circular(25.0),
@@ -107,7 +104,6 @@ class _CopyContentButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      color: Colors.black,
       icon: Icon(FlutterIcons.content_copy_mdi),
       onPressed: () async {
         await utils.copyToClipBoard(text).then(
@@ -133,10 +129,10 @@ class SaveQRButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
+      padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 20.0),
       child: FlatButton(
-        color: Colors.blue,
-        textColor: Colors.white,
+        color: Theme.of(context).accentColor,
+        colorBrightness: Theme.of(context).accentColorBrightness,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.0),
         ),

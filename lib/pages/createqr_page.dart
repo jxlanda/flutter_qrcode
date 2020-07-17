@@ -26,6 +26,7 @@ class CreateQRPage extends StatelessWidget {
           centerTitle: true,
           elevation: 0.0,
         ),
+        backgroundColor: Theme.of(context).primaryColor,
         body: BlocBuilder<CreateQRBloc, CreateQRState>(
           builder: (context, state) {
             if (state is StepperFormState) {
@@ -162,8 +163,11 @@ class CreateQRPage extends StatelessWidget {
                                         state.currentStep != 0
                                             ? FlatButton(
                                                 color: Colors.grey[200],
-                                                textColor: Theme.of(context)
-                                                    .textSelectionColor,
+                                                colorBrightness:
+                                                    Theme.of(context)
+                                                        .accentColorBrightness,
+                                                // textColor: Theme.of(context)
+                                                //     .textSelectionColor,
                                                 child: const Text('BACK'),
                                                 shape: RoundedRectangleBorder(
                                                   borderRadius:
