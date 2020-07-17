@@ -361,9 +361,7 @@ void bottomSheet({BuildContext context, Scan scan}) {
     title: Text('Remove'),
     onTap: () async {
       await database.removeFromDatabase(
-          database: HiveHistory,
-          key: scan.key,
-          type: HiveTypes.Scan.toString());
+          database: HiveHistory, key: scan.key, type: HiveTypes.Scan.value);
       Navigator.pop(context);
       snackBar(
         scaffoldState: scaffold,
